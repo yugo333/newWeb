@@ -1,18 +1,150 @@
-@use '@scss/colors.scss' as colors;
+//z-index: 2がキャンバス、ヘッダー。３と１で切り替える
 
-.testButton {
-  color: colors.$lightGreen;
-  background-color: colors.$skyBlue;
-  transition: all 1s;
+/* pc */
+@media screen and (min-width: 961px) {
+  /*ここにpc用スタイルを記述*/
+  body {
+    margin: 0;
+    width: 100%;
+    position: relative;
+    // デフォルト時スクロールできなくする設定
+    overflow: hidden;
+  }
 
-  &:hover {
-    color: pink;
-    transform: translateY(50px);
+  .objLoader {
+    position: relative;
+    z-index: 2;
+  }
+
+  .header {
+    width: 100%;
+    height: 20%;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 2;
+
+    h1 {
+      font-family: "Libre Barcode 39 Text", cursive;
+      padding-top: 45px;
+      padding-right: 50px;
+      color: #78c4d9;
+      opacity: 0.7;
+      cursor: pointer;
+    }
+
+    .log {
+      position: absolute;
+      padding-top: 1%;
+      padding-right: 100px;
+      cursor: pointer;
+    }
+  }
+
+  .mainSide {
+    width: 32%;
+    height: 100%;
+    // background-color: red;
+    position: absolute;
+    top: 20%;
+    right: 0px;
+    z-index: 3;
+
+    .container {
+      // padding-top: 56%;
+      // padding-left: 5%;
+      font-family: "Nosifer", cursive;
+      opacity: 0.7;
+
+      .item {
+        font-size: 4em;
+        margin-top: 40px;
+        color: red;
+        cursor: pointer;
+        text-shadow: 8px 8px 4px rgb(119, 2, 2);
+      }
+
+      .item:hover {
+        color: orange;
+        text-shadow: 16px 16px 8px rgb(119, 2, 2);
+      }
+    }
+  }
+
+  .mainSecond {
+    position: absolute;
+    top: 20%;
+    z-index: 1;
+    color: #ffffff;
+    font-size: 30px;
   }
 }
 
-// h2 {
-//   background-image: url('~@assets/images/sample.svg');
-//   background-repeat: no-repeat;
-//   background-position: center;
-// }
+/* tablet  */
+@media only screen and (min-width: 641px) and (max-width: 960px) {
+  /*ここにtablet用スタイルを記述*/
+  body {
+    margin: 0;
+    width: 100%;
+    position: relative;
+  }
+
+  .header {
+    width: 100%;
+    height: 20%;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: flex-end;
+
+    h1 {
+      font-family: "Libre Barcode 39 Text", cursive;
+      padding-top: 30px;
+      padding-right: 50px;
+      color: #78c4d9;
+      opacity: 0.7;
+      cursor: pointer;
+    }
+
+    .log {
+      position: absolute;
+      padding-right: 100px;
+      cursor: pointer;
+    }
+  }
+
+  .mainSide {
+    width: 32%;
+    height: 100%;
+    // background-color: red;
+    position: absolute;
+    top: 20%;
+    right: 0px;
+
+    .container {
+      // padding-top: 56%;
+      // padding-left: 5%;
+      font-family: "Nosifer", cursive;
+      opacity: 0.7;
+
+      .item {
+        font-size: 2em;
+        margin-top: 15px;
+        color: red;
+        cursor: pointer;
+        text-shadow: 8px 8px 4px rgb(119, 2, 2);
+      }
+
+      .item:hover {
+        color: orange;
+        text-shadow: 16px 16px 8px rgb(119, 2, 2);
+      }
+    }
+  }
+}
+
+/* smartPhone */
+@media screen and (max-width: 640px) {
+  /*ここにスマホ用スタイルを記述*/
+}

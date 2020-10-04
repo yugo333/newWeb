@@ -72,7 +72,7 @@ module.exports = ({ outputFile, assetFile, envFilePath, assetPath }) => {
         // },
         {
           // 他の種類の静的ファイルを使用する場合は同様の記述で追加する。 ここの記述で(test)でobj読み込めるようになる
-          test: /\.(png|svg|jpe?g|gif|obj|mp3|wav|bin|gltf|glb)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          test: /\.(png|svg|jpe?g|gif|obj|mp3|wav|bin|gltf|glb|mtl)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           use: [
             {
               loader: "file-loader",
