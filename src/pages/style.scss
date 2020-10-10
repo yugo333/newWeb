@@ -11,10 +11,10 @@
     overflow: hidden;
   }
 
-  .objLoader {
-    position: relative;
-    z-index: 2;
-  }
+  // .objLoader {
+  //   position: relative;
+  //   z-index: 2;
+  // }
 
   .header {
     width: 100%;
@@ -23,7 +23,7 @@
     top: 0px;
     display: flex;
     justify-content: flex-end;
-    z-index: 2;
+    // z-index: 2;
 
     h1 {
       font-family: "Libre Barcode 39 Text", cursive;
@@ -49,7 +49,7 @@
     position: absolute;
     top: 20%;
     right: 0px;
-    z-index: 3;
+    // z-index: 3;
 
     .container {
       // padding-top: 56%;

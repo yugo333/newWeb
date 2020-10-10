@@ -1,1 +1,19 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>vanilla java script</title><link href=".././css/index.f4eee83712582251662b.css" rel="stylesheet"></head><body><h2>index.html</h2><button id="testButton" class="testButton">test</button> <img src="/assets/images/sample.d16fb29ba1612759a6cad0d2f080b2e7.png"><p><a href="./sample/index.html">to sample</a></p><script src=".././js/index.f4eee83712582251662b.js"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"><link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"><link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&family=Monoton&display=swap" rel="stylesheet"><title>vanilla java script</title><link href=".././css/index.8420967e92c92ce49bf8.css" rel="stylesheet"></head><body><div id="objLoader" class="objLoader"></div><div class="header" ontouchstart=""><h1>U5 Official</h1><img class="log" src="/assets/images/U5.6ec89e9497891c049e1b259184ba51d0.png" alt="log" width="70" height="110"></div><div class="mainSide" id="mainSide" ontouchstart=""><div class="container"><div id="container"><div class="item animate__animated animate__fadeInDown" id="item"><div id="about" class="about animate__animated animate__pulse">About</div></div><div class="item animate__animated animate__fadeInDown animate__delay-2s" id="item"><div class="works animate__animated animate__pulse animate__delay-2s">Works</div></div><div class="item animate__animated animate__fadeInDown animate__delay-3s" id="item"><div class="link animate__animated animate__pulse animate__delay-3s">Link</div></div><div class="item animate__animated animate__fadeInDown animate__delay-4s" id="item"><div class="contact animate__animated animate__pulse animate__delay-4s">Contact</div></div></div></div></div><script type="x-shader/x-vertex" id="vertexshader">uniform float amplitude;
+      attribute vec3 customColor;
+      attribute vec3 displacement;
+      varying vec3 vNormal;
+      varying vec3 vColor;
+      void main() {
+      	vNormal = normal;
+      	vColor = customColor;
+      	vec3 newPosition = position + normal * amplitude * displacement;
+      	gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+      }</script><script type="x-shader/x-fragment" id="fragmentshader">varying vec3 vNormal;
+      varying vec3 vColor;
+      void main() {
+      	const float ambient = 0.4;
+      	vec3 light = vec3( 1.0 );
+      	light = normalize( light );
+      	float directional = max( dot( vNormal, light ), 0.0 );
+      	gl_FragColor = vec4( ( directional + ambient ) * vColor, 1.0 );
+      }</script><script src=".././js/index.8420967e92c92ce49bf8.js"></script></body></html>

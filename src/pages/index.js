@@ -38,7 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let loader = new objModel();
   // クロックはラジアンと同じ効力をもたらす// let theta = clock.getElapsedTime(); loader.camera.position.x = 5 * Math.sin(theta);
   // const clock = new THREE.Clock();
-  console.log(loader);
+  // console.log(loader);
   let hasBoolPos = true;
   let mouseCount = 0;
   let nextMoveCount = 0;
@@ -52,6 +52,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let destroy = false;
   let changePage = false;
   let resetAnimation = false;
+  let cameraPositionDownY = 0;
 
   function render() {
     // モデル変数
@@ -223,10 +224,11 @@ window.addEventListener("DOMContentLoaded", () => {
                               if (bullet.position.z <= -62) {
                                 loader.text.meshArray[0].material.uniforms.amplitude.value += 0.3;
                                 loader.text.meshArray[0].rotation.y += 0.03;
-                                if (bullet.position.z < -80)
+                                if (bullet.position.z < -80) {
                                   // ページ移行処理、リセット処理
                                   changePage = true;
-                                resetAnimation = true;
+                                  resetAnimation = true;
+                                }
                               }
                             }
                           }
@@ -247,8 +249,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // アニメーション後のページ表示
     if (changePage) {
-      document.querySelector("#mainSide").style.zIndex = 1;
-      document.querySelector("#mainSecond").style.zIndex = 3;
+      if (loader.camera.position.y >= -7) {
+        cameraPositionDownY -= 0.05;
+        // カメラの向く方向
+        loader.camera.position.y = cameraPositionDownY;
+        loader.Controls.target.y = cameraPositionDownY;
+        loader.Controls.update();
+      }
     }
 
     // hover時の回転処理
@@ -423,6 +430,16 @@ class objModel extends load {
     this.text.meshArray.forEach((mesh) => {
       scene.add(mesh);
     });
+
+    //ページプレーンモデル
+    const texLoader = new THREE.TextureLoader();
+    const texture = texLoader.load("~@assets/images/r.png");
+    let planeGeometry = new THREE.PlaneGeometry(20, 20);
+    let planeMaterial = new THREE.MeshBasicMaterial({
+      map: texture,
+    });
+    const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    scene.add(planeMesh);
 
     // // GUIパラメータ
     // function guiCtrl() {

@@ -72,7 +72,7 @@ module.exports = ({ outputFile, assetFile, envFilePath, assetPath }) => {
         // },
         {
           // 他の種類の静的ファイルを使用する場合は同様の記述で追加する。 ここの記述で(test)でobj読み込めるようになる
-          test: /\.(png|svg|jpe?g|gif|obj|mp3|wav|bin|gltf|glb|mtl)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          test: /\.(png|svg|jpe?g|gif|obj|mp3|wav|bin|gltf|glb|mtl|jpg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           use: [
             {
               loader: "file-loader",
@@ -108,9 +108,9 @@ module.exports = ({ outputFile, assetFile, envFilePath, assetPath }) => {
         // 追記
         // 画像を相対パスで使えるようにする
         // {
-        //   test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+        //   test: /\.(jpg|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
         //   exclude: /gltf/,
-        //   loader: 'url-loader?limit=100000',
+        //   loader: "url-loader?limit=100000",
         // },
         {
           // json読みこむ為の記述
