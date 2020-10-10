@@ -289,6 +289,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
       }
     }
+
     // れんだりんぐ
     loader.renderer.render(scene, loader.camera);
     requestAnimationFrame(render);
@@ -432,14 +433,123 @@ class objModel extends load {
     });
 
     //ページプレーンモデル
+    // 背景１
     const texLoader = new THREE.TextureLoader();
-    const texture = texLoader.load("~@assets/images/r.png");
-    let planeGeometry = new THREE.PlaneGeometry(20, 20);
+    const texture = texLoader.load("../assets/images/q.jpg");
+    let planeGeometry = new THREE.PlaneGeometry(
+      window.innerWidth / 400,
+      window.innerHeight / 500
+    );
     let planeMaterial = new THREE.MeshBasicMaterial({
       map: texture,
+      transparent: true,
+      opacity: 0.7,
     });
     const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     scene.add(planeMesh);
+
+    // テキスト
+    const text = texLoader.load("../assets/images/txt.png");
+    let txtGeometry = new THREE.PlaneGeometry(
+      window.innerWidth / 600,
+      window.innerHeight / 1600
+    );
+    let txtMaterial = new THREE.MeshBasicMaterial({
+      map: text,
+      transparent: true,
+      opacity: 0.8,
+    });
+    const txtMesh = new THREE.Mesh(txtGeometry, txtMaterial);
+    txtMesh.position.z = 1;
+    txtMesh.position.y = -0.38;
+    scene.add(txtMesh);
+
+    // 背景２
+    const texture2 = texLoader.load("../assets/images/w.jpg");
+    let planeGeometry2 = new THREE.PlaneGeometry(
+      window.innerWidth / 400,
+      window.innerHeight / 500
+    );
+    let planeMaterial2 = new THREE.MeshBasicMaterial({
+      map: texture2,
+      transparent: true,
+      opacity: 0.7,
+    });
+    const planeMesh2 = new THREE.Mesh(planeGeometry2, planeMaterial2);
+    planeMesh2.position.y = -3;
+    scene.add(planeMesh2);
+
+    // テキスト２
+    const text2 = texLoader.load("../assets/images/text.png");
+    let txtGeometry2 = new THREE.PlaneGeometry(
+      window.innerWidth / 600,
+      window.innerHeight / 1600
+    );
+    let txtMaterial2 = new THREE.MeshBasicMaterial({
+      map: text2,
+      transparent: true,
+      opacity: 0.8,
+    });
+    const txtMesh2 = new THREE.Mesh(txtGeometry2, txtMaterial2);
+    txtMesh2.position.z = 1;
+    txtMesh2.position.y = -3.38;
+    scene.add(txtMesh2);
+    //
+
+    //ローダーで画像読み込み
+    let urls = [
+      //画像配置決まってる
+      "../assets/images/posx.jpg",
+      "../assets/images/negx.jpg",
+      "../assets/images/posy.jpg",
+      "../assets/images/negy.jpg",
+      "../assets/images/posz.jpg",
+      "../assets/images/negz.jpg",
+    ];
+    let loader = new THREE.CubeTextureLoader();
+    let cubeTexture = loader.load(urls);
+    cubeTexture.mapping = THREE.CubeRefractionMapping;
+
+    this.diamMaterial = new THREE.MeshBasicMaterial({
+      color: 0xf0f0ff,
+      envMap: cubeTexture,
+      refractionRatio: 0.75, //屈折
+      opacity: 0.5, //不透明度で反射具合を調整
+      transparent: true, //透明を有効に
+    });
+    this.diamMaterial2 = new THREE.MeshBasicMaterial({
+      color: 0xcccccc,
+      envMap: cubeTexture, //反射マッピングのcubeCameraで作成した環境マッピングを適用
+      reflectivity: 1, //反射率
+      opacity: 0.5, //不透明度で反射具合を調整
+      transparent: true, //透明を有効に
+    });
+
+    const GLB4 = require("../assets/images/dia.glb");
+    GLoader.load(GLB4, (gltf) => {
+      this.dia = gltf.scene;
+      this.dia2 = this.dia.clone();
+
+      this.dia.traverse((o) => {
+        o.material = this.diamMaterial;
+      });
+      this.dia2.traverse((o) => {
+        o.material = this.diamMaterial2;
+      });
+
+      this.dia.scale.set(0.15, 0.15, 0.15);
+      this.dia2.scale.set(0.15, 0.15, 0.15);
+      // dia.scale.set(200, 200, 200); //diaのサイズ
+      this.dia.position.z = 0.5;
+      this.dia2.position.z = 0.5;
+      this.dia.position.y = -0.3;
+      this.dia2.position.y = -0.3;
+      scene.add(this.dia);
+      scene.add(this.dia2);
+    });
+
+    // this.spotLightHelper1 = new THREE.AmbientLightHelper(this.a, 0xff0000);
+    // scene.add(this.spotLightHelper1);
 
     // // GUIパラメータ
     // function guiCtrl() {
