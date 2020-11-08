@@ -25,13 +25,14 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+var profileText3D = new THREE.FontLoader().parse(_helvetiker_regularTypeface["default"]);
+
 var Text =
 /*#__PURE__*/
 function () {
   function Text() {
     _classCallCheck(this, Text);
 
-    var profileText3D = new THREE.FontLoader().parse(_helvetiker_regularTypeface["default"]);
     var textArray = ["L", "A", "I", "C", "I", "F", "F", "O", " ", "5", "U"];
     this.meshArray = [];
 

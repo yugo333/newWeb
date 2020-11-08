@@ -3,9 +3,10 @@ import textJson from "three/examples/fonts/helvetiker_regular.typeface.json";
 // import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 import { TessellateModifier } from "three/examples/jsm/modifiers/TessellateModifier";
 
+const profileText3D = new THREE.FontLoader().parse(textJson);
+
 export class Text {
   constructor() {
-    const profileText3D = new THREE.FontLoader().parse(textJson);
     const textArray = ["L", "A", "I", "C", "I", "F", "F", "O", " ", "5", "U"];
     this.meshArray = [];
     for (let i = 0; i < textArray.length; i++) {
