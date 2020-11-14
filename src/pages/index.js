@@ -3,8 +3,6 @@ import * as THREE from "three";
 import * as controls from "three-orbit-controls";
 import { GUI } from "dat.gui";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-// import model from "../assets/images/gunRoll.obj";
-// import tex from "../assets/images/gunRoll.mtl";
 import { Text } from "./_text";
 import {
   BloomEffect,
@@ -13,15 +11,20 @@ import {
   RenderPass,
 } from "postprocessing";
 
-// import {CSS3DObject} from 'three/examples/js/renderers/CSS3DRenderer'
-// import {
-//   CSS3DRenderer,
-//   CSS3DObject,
-// } from "three/examples/jsm/renderers/CSS3DRenderer";
-
+const firstLoading = document.getElementById("loading");
 let scene = new THREE.Scene();
-// let CssScene = new THREE.Scene();
+
 window.addEventListener("DOMContentLoaded", () => {
+  // ローティング画面
+  firstLoading.style.zIndex = 10;
+  new into();
+  setTimeout(() => {
+    // ローティング画面
+    firstLoading.style.zIndex = 0;
+  }, 5000);
+});
+
+function into() {
   // モバイルのスクロール停止
   let mainScroll = document.querySelector("body");
   scrollTo(0, 1000);
@@ -69,7 +72,6 @@ window.addEventListener("DOMContentLoaded", () => {
     // canvas要素の幅・高さ
     const w = element.offsetWidth;
     const h = element.offsetHeight;
-
     // -1〜+1の範囲で現在のマウス座標を登録する
     mouse.x = (x / w) * 2 - 1;
     mouse.y = -(y / h) * 2 + 1;
@@ -347,26 +349,23 @@ window.addEventListener("DOMContentLoaded", () => {
       const intersects = raycaster.intersectObjects(scene.children);
       // console.log(intersects);
       if (intersects.length > 0) {
+        // ぶつかったオブジェクトに対してなんかする
         if (intersects[0].object.name == "youTubeMesh") {
-          // ぶつかったオブジェクトに対してなんかする
           loader.youTubeMesh.scale.x = 1.5;
         } else {
           loader.youTubeMesh.scale.x = 1;
         }
         if (intersects[0].object.name == "instMesh") {
-          // ぶつかったオブジェクトに対してなんかする
           loader.instMesh.scale.x = 1.5;
         } else {
           loader.instMesh.scale.x = 1;
         }
         if (intersects[0].object.name == "tweMesh") {
-          // ぶつかったオブジェクトに対してなんかする
           loader.tweMesh.scale.x = 1.5;
         } else {
           loader.tweMesh.scale.x = 1;
         }
         if (intersects[0].object.name == "gitMesh") {
-          // ぶつかったオブジェクトに対してなんかする
           loader.gitMesh.scale.x = 1.5;
         } else {
           loader.gitMesh.scale.x = 1;
@@ -436,7 +435,7 @@ window.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(render);
   }
   render();
-});
+}
 
 class load {
   constructor() {

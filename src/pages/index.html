@@ -23,6 +23,13 @@
   <body>
     <div id="objLoader" class="objLoader"></div>
     <div class="header" ontouchstart="">
+      <img
+        class="icon"
+        src="~@assets/images/micon.png"
+        alt="icon"
+        width="70"
+        height="70"
+      />
       <h1>U5 Official</h1>
       <img
         class="log"
@@ -35,50 +42,48 @@
     <div class="mainSide" id="mainSide" ontouchstart="">
       <div class="container">
         <div id="container">
-          <div class="item animate__animated animate__fadeInDown" id="item">
-            <div id="about" class="about animate__animated animate__pulse">
+          <div class="item" id="item">
+            <div id="about" class="about">
               About
             </div>
           </div>
-          <div
-            class="item animate__animated animate__fadeInDown animate__delay-2s"
-            id="item"
-          >
-            <div
-              class="works animate__animated animate__pulse animate__delay-2s"
-            >
+          <div class="item" id="item">
+            <div class="works">
               Works
             </div>
           </div>
-          <div
-            class="item animate__animated animate__fadeInDown animate__delay-3s"
-            id="item"
-          >
-            <div
-              class="link animate__animated animate__pulse animate__delay-3s"
-            >
+          <div class="item" id="item">
+            <div class="link">
               Link
             </div>
           </div>
-          <div
-            class="item animate__animated animate__fadeInDown animate__delay-4s"
-            id="item"
-          >
-            <div
-              class="contact animate__animated animate__pulse animate__delay-4s"
-            >
+          <div class="item" id="item">
+            <div class="contact">
               Contact
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- <div class="mainSecond" id="mainSecond">
-      っっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっっqq
-      っっっっっっっっっっっっっっっっっっっ<q
-        >っっっっっっっっっっ<q>っっっっっっq</q></q
-      >
-    </div> -->
+    <div class="loading" id="loading">
+      <div class="flash">
+        <div class="skew">
+          <div class="glitch">
+            <img src="~@assets/images/U5.png" />
+          </div>
+        </div>
+      </div>
+      <div class="load">
+        <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div>
+      </div>
+    </div>
+    <!-- 破壊テキスト -->
     <script type="x-shader/x-vertex" id="vertexshader">
       uniform float amplitude;
       attribute vec3 customColor;

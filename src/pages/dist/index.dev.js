@@ -32,14 +32,19 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// import {CSS3DObject} from 'three/examples/js/renderers/CSS3DRenderer'
-// import {
-//   CSS3DRenderer,
-//   CSS3DObject,
-// } from "three/examples/jsm/renderers/CSS3DRenderer";
-var scene = new THREE.Scene(); // let CssScene = new THREE.Scene();
-
+var firstLoading = document.getElementById("loading");
+var scene = new THREE.Scene();
 window.addEventListener("DOMContentLoaded", function () {
+  // ローティング画面
+  firstLoading.style.zIndex = 10;
+  new into();
+  setTimeout(function () {
+    // ローティング画面
+    firstLoading.style.zIndex = 0;
+  }, 5000);
+});
+
+function into() {
   // モバイルのスクロール停止
   var mainScroll = document.querySelector("body");
   scrollTo(0, 1000);
@@ -388,29 +393,26 @@ window.addEventListener("DOMContentLoaded", function () {
       var intersects = raycaster.intersectObjects(scene.children); // console.log(intersects);
 
       if (intersects.length > 0) {
+        // ぶつかったオブジェクトに対してなんかする
         if (intersects[0].object.name == "youTubeMesh") {
-          // ぶつかったオブジェクトに対してなんかする
           loader.youTubeMesh.scale.x = 1.5;
         } else {
           loader.youTubeMesh.scale.x = 1;
         }
 
         if (intersects[0].object.name == "instMesh") {
-          // ぶつかったオブジェクトに対してなんかする
           loader.instMesh.scale.x = 1.5;
         } else {
           loader.instMesh.scale.x = 1;
         }
 
         if (intersects[0].object.name == "tweMesh") {
-          // ぶつかったオブジェクトに対してなんかする
           loader.tweMesh.scale.x = 1.5;
         } else {
           loader.tweMesh.scale.x = 1;
         }
 
         if (intersects[0].object.name == "gitMesh") {
-          // ぶつかったオブジェクトに対してなんかする
           loader.gitMesh.scale.x = 1.5;
         } else {
           loader.gitMesh.scale.x = 1;
@@ -484,7 +486,7 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 
   render();
-});
+}
 
 var load = function load() {
   _classCallCheck(this, load);
