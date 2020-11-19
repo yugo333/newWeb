@@ -1,3 +1,4 @@
+"use strict";
 import "./style.scss";
 import * as THREE from "three";
 import * as controls from "three-orbit-controls";
@@ -10,34 +11,47 @@ import {
   EffectPass,
   RenderPass,
 } from "postprocessing";
+import { Shader } from "./shader";
 
+// ローディング時の処理のタグ
 const firstLoading = document.getElementById("loading");
+const header = document.getElementById("header");
+const mainSide = document.getElementById("mainSide");
+// window（携帯）横にさせる
+const wsp = document.getElementById("windowSizePic");
+let windowWidth = false;
+
 let scene = new THREE.Scene();
 
 window.addEventListener("DOMContentLoaded", () => {
-  // ローティング画面
-  firstLoading.style.zIndex = 10;
-  new into();
-  setTimeout(() => {
+  // スクロールをゼロにしとく
+  scrollTo(0, 0);
+  // メインの関数
+  const int = new into();
+  int.onload = setTimeout(() => {
     // ローティング画面
     firstLoading.style.zIndex = 0;
+    mainSide.style.opacity = 1;
+    header.style.opacity = 1;
+    windowWidth = true;
   }, 5000);
 });
 
 function into() {
   // モバイルのスクロール停止
   let mainScroll = document.querySelector("body");
-  scrollTo(0, 1000);
+
   setTimeout(() => {
     mainScroll.style.overflow = "hidden";
   }, 1000);
-  // document.addEventListener(
-  //   "touchmove",
-  //   function (e) {
-  //     e.preventDefault();
-  //   },
-  //   { passive: false }
-  // );
+  //モバイルhoverイベント
+  document.addEventListener(
+    "touchmove",
+    function (e) {
+      e.preventDefault();
+    },
+    { passive: false }
+  );
   //hoverイベント 初期画面
   const item = document.querySelector("#container");
   let onmouseenter = false;
@@ -60,7 +74,7 @@ function into() {
 
   // hoverイベント ページ画面
   // canvas 要素の参照を取得する
-  const canvas = document.querySelector("#objLoader canvas");
+  let canvas = document.querySelector("#objLoader canvas");
   // マウス座標管理用のベクトルを作成
   const mouse = new THREE.Vector2();
   // マウスイベントを登録
@@ -75,11 +89,81 @@ function into() {
     // -1〜+1の範囲で現在のマウス座標を登録する
     mouse.x = (x / w) * 2 - 1;
     mouse.y = -(y / h) * 2 + 1;
+    // shaderGLSLのマウスイベント
+    loader.uniforms.mouse.value.x = event.pageX;
+    loader.uniforms.mouse.value.y = event.pageY;
   });
   // レイキャストを作成
   const raycaster = new THREE.Raycaster();
 
   // clickイベント ページ画面
+
+  // レスポンシブ
+  function canvas_resize() {
+    // サイズを取得
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    // レンダラーのサイズを調整する
+    loader.renderer.setPixelRatio(window.devicePixelRatio);
+    loader.renderer.setSize(width, height);
+    // カメラのアスペクト比を正す
+    loader.camera.aspect = width / height;
+    loader.camera.updateProjectionMatrix();
+    // shaderGLSLのPXサイズ
+    loader.uniforms.resolution.value.x = loader.renderer.domElement.width / 2;
+    loader.uniforms.resolution.value.y = loader.renderer.domElement.height / 2;
+  }
+  window.addEventListener("resize", canvas_resize, false);
+  canvas_resize();
+
+  // オーディオ
+  const Btn = document.querySelector("#icon");
+  let sound;
+  let uniformsAudio;
+  let analyser;
+  let hasFirstOn = true;
+  Btn.addEventListener("click", () => {
+    if (hasFirstOn) {
+      //オーディオ
+      const listener = new THREE.AudioListener();
+      loader.camera.add(listener);
+      let fftSize = 128;
+      // create a global audio source
+      sound = new THREE.Audio(listener);
+      // load a sound and set it as the Audio object's buffer
+      const mp3 = require("../assets/images/The-sound-of-rain.mp3");
+      const audioLoader = new THREE.AudioLoader();
+      audioLoader.load(mp3, (buffer) => {
+        sound.setBuffer(buffer);
+        sound.setLoop(true);
+        sound.setVolume(0.3);
+        sound.play();
+      });
+      analyser = new THREE.AudioAnalyser(sound, fftSize);
+
+      uniformsAudio = {
+        tAudioData: {
+          value: new THREE.DataTexture(
+            analyser.data,
+            fftSize / 2,
+            1,
+            THREE.LuminanceFormat
+          ),
+        },
+      };
+      // listener.play();
+      hasFirstOn = false;
+    } else {
+      // ここで切り替え（上は一番最初にクリックしたとき、生成からplayする）
+      if (sound.isPlaying) {
+        // フェードアウトの処理がほしい //
+        sound.stop();
+      } else {
+        // フェードインの処理がほしい //
+        sound.play();
+      }
+    }
+  });
 
   // クロックはラジアンと同じ効力をもたらす// let theta = clock.getElapsedTime(); loader.camera.position.x = 5 * Math.sin(theta);
   // const clock = new THREE.Clock();
@@ -104,6 +188,30 @@ function into() {
   let hasObjHover = false;
 
   function render() {
+    if (windowWidth) {
+      // 携帯でみたとき画面横にさせる表示(パワープレー)
+      if (window.innerWidth < window.innerHeight) {
+        wsp.style.position = "fixed";
+        wsp.style.zIndex = 9;
+        wsp.style.top = 0;
+        wsp.style.width = "100vw";
+        wsp.style.height = "100vh";
+        wsp.style.opacity = 1;
+      }
+      if (window.innerWidth > window.innerHeight) {
+        wsp.style.position = "fixed";
+        wsp.style.zIndex = 0;
+        wsp.style.top = 0;
+        wsp.style.width = "1px";
+        wsp.style.height = "1px";
+        wsp.style.opacity = 0;
+      }
+      // ロード時に左側から現れる演出
+      if (loader.plane.position.x < 41) {
+        loader.plane.position.x += 0.05;
+      }
+    }
+
     // モデル変数
     let roll = loader.toy;
     let stick = loader.st;
@@ -309,7 +417,12 @@ function into() {
       }
       if (scrollPage) {
         //スクロール出来るようにしハイトも大きくする
-        mainScroll.style.height = "1900px";
+        // モバイルだとなんか変になるので小ちゃくする
+        if (window.innerWidth < 960) {
+          mainScroll.style.height = "1250px";
+        } else {
+          mainScroll.style.height = "1900px";
+        }
         mainScroll.style.overflowY = "auto";
         //カメラが動ききってからスクロールできるようにする
         let y = window.pageYOffset / 100;
@@ -328,6 +441,17 @@ function into() {
       loader.dia2.rotation.z += 0.01;
       // ホバー 処理
       hasObjHover = true;
+
+      //ここのプレートは初期画面の写り込みの隠しとページ表示時のオパシティーの役割
+      loader.plane.position.set(-10, 0, -52.6);
+      loader.plane.rotation.y = Math.PI / 2;
+      if (loader.plane.material.opacity > 0) {
+        loader.plane.material.opacity -= 0.01;
+      }
+
+      // glslをカメラのfarで表示させる
+      loader.camera.far = 10000;
+      loader.camera.updateProjectionMatrix();
 
       // アニメーション処理の停止のタイミングを遅らせる
       setTimeout(() => {
@@ -427,6 +551,21 @@ function into() {
       }
     }
 
+    // オーディオ
+    if (!hasFirstOn) {
+      // audio設定
+      let data = analyser.getFrequencyData();
+      uniformsAudio.tAudioData.value.needsUpdate = true;
+
+      let addSize = 0.2 + data[0] * 0.00025;
+
+      loader.dia.scale.set(addSize, addSize, addSize);
+      loader.dia2.scale.set(addSize, addSize, addSize);
+    }
+
+    // shaderGLSLのタイム
+    loader.uniforms.time.value += 0.05;
+
     // れんだりんぐ
     // loader.renderer.render(scene, loader.camera);
     // loader.cssRenderer.render(CssScene, loader.camera);
@@ -462,8 +601,30 @@ class load {
     // this.light1.target =toy
     scene.add(this.light1);
 
+    // バックグラウンド shader GLSL
+    this.shader = new Shader();
+    this.uniforms = this.shader.uniforms();
+    var geometryShader = new THREE.PlaneBufferGeometry(2, 2);
+
+    var materialShader = new THREE.ShaderMaterial({
+      uniforms: this.uniforms,
+      vertexShader: document.getElementById("vertexShaderBG").textContent,
+      fragmentShader: document.getElementById("fragmentShaderBG").textContent,
+      depthTest: false,
+      depthWrite: false,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+    });
+    var meshShader = new THREE.Mesh(geometryShader, materialShader);
+    // ここが重要設定地道にするしかない
+    meshShader.position.x = -220;
+    meshShader.position.z = -100;
+    scene.add(meshShader);
+
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.autoClear = false;
+    this.renderer.setPixelRatio(window.devicePixelRatio);
     document.getElementById("objLoader").appendChild(this.renderer.domElement);
 
     this.Controls = new this.OrbitControls(
@@ -694,7 +855,7 @@ class objModel extends load {
     let planeMaterialTable = new THREE.MeshBasicMaterial({
       map: textureTable,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.7,
     });
     const planeMeshTable = new THREE.Mesh(
       planeGeometryTable,
@@ -788,7 +949,7 @@ class objModel extends load {
     let planeMaterial8 = new THREE.MeshBasicMaterial({
       map: texture8,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.7,
     });
     const planeMesh8 = new THREE.Mesh(planeGeometry8, planeMaterial8);
     planeMesh8.rotation.y = (90 / 180) * Math.PI;
@@ -809,8 +970,9 @@ class objModel extends load {
     ];
     let loader = new THREE.CubeTextureLoader();
     let cubeTexture = loader.load(urls);
-    cubeTexture.mapping = THREE.CubeRefractionMapping;
+    // cubeTexture.mapping = THREE.CubeRefractionMapping;
 
+    //メインのダイヤ
     this.diamMaterial = new THREE.MeshLambertMaterial({
       color: 0xf0f0ff,
       envMap: cubeTexture,
@@ -825,7 +987,6 @@ class objModel extends load {
       opacity: 0.6, //不透明度で反射具合を調整
       transparent: true, //透明を有効に
     });
-
     const GLB4 = require("../assets/images/diamond.glb");
     GLoader.load(GLB4, (gltf) => {
       this.dia = gltf.scene;
@@ -850,6 +1011,71 @@ class objModel extends load {
       scene.add(this.dia);
       scene.add(this.dia2);
     });
+    const geometryPlane = new THREE.PlaneGeometry(80, 80, 32);
+    const materialPlane = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 1,
+    });
+    this.plane = new THREE.Mesh(geometryPlane, materialPlane);
+    this.plane.position.set(38, 0, 1);
+    // this.plane.position.set(41, 0, 1);
+    scene.add(this.plane);
+
+    // // 大量のダイヤ
+    // const dm = require("../assets/images/diamond22.glb");
+    // this.groupD = new THREE.Group();
+    // this.groupD.name = "groupD";
+    // for (let index = 0; index < 40; index++) {
+    //   GLoader.load(dm, (gltf) => {
+    //     this.anderDia = gltf.scene;
+    //     this.anderDia2 = this.anderDia.clone();
+    //     var color = { r: 0, g: 0, b: 0 }; // RGB 0～255の値で設定
+    //     for (var i in color) {
+    //       color[i] = Math.floor(Math.random() * 256);
+    //     }
+
+    //     this.anderDia.traverse((o) => {
+    //       o.material = new THREE.MeshLambertMaterial({
+    //         color: new THREE.Color(`rgb(${color.r},${color.g},${color.b})`),
+    //         envMap: cubeTexture,
+    //         refractionRatio: 0.8, //屈折
+    //         opacity: 0.8, //不透明度で反射具合を調整
+    //         transparent: true, //透明を有効に
+    //       });
+    //     });
+    //     this.anderDia2.traverse((o) => {
+    //       o.material = new THREE.MeshLambertMaterial({
+    //         color: new THREE.Color(`rgb(${color.r},${color.g},${color.b})`),
+    //         envMap: cubeTexture, //反射マッピングのcubeCameraで作成した環境マッピングを適用
+    //         reflectivity: 1, //反射率
+    //         opacity: 0.6, //不透明度で反射具合を調整
+    //         transparent: true, //透明を有効に
+    //       });
+    //     });
+
+    //     this.anderDia.scale.set(0.2, 0.2, 0.2);
+    //     this.anderDia2.scale.set(0.2, 0.2, 0.2);
+    //     // dia.scale.set(200, 200, 200); //diaのサイズ
+    //     let z = Math.random() * 5 - 2.5;
+    //     this.anderDia.position.z = textPositionZ - z;
+    //     this.anderDia2.position.z = textPositionZ - z;
+    //     let y = Math.random();
+    //     this.anderDia.position.y = -10.1 + textPositionY + y;
+    //     this.anderDia2.position.y = -10.1 + textPositionY + y;
+    //     let x = Math.random() * 2 - 1;
+    //     this.anderDia.position.x = textPositionX + 0.5 + x;
+    //     this.anderDia2.position.x = textPositionX + 0.5 + x;
+    //     this.anderDia.rotation.set(z, y, x);
+    //     this.anderDia2.rotation.set(z, y, x);
+    //     this.groupD.add(this.anderDia);
+    //     this.groupD.add(this.anderDia2);
+    //   });
+    // }
+
+    // scene.add(this.groupD);
+    // // console.log(scene);
 
     //プロセシングにthis.rendererを置き換える神々しくなる
     this.composer = new EffectComposer(this.renderer);
@@ -869,7 +1095,7 @@ class objModel extends load {
     // this.cssObject = new CSS3DObject(this.element);
     // CssScene.add(this.cssObject);
 
-    //GUI page
+    // //GUI page
     // function guiCtrl() {
     //   this.p_x = textPositionX;
     //   this.p_y = textPositionY;
@@ -882,7 +1108,7 @@ class objModel extends load {
     // let folder = gui.addFolder("Folder");
     // let guiObj = new guiCtrl();
     // folder.add(guiObj, "p_x", -100, 100).onChange(() => {
-    //   planeMeshCard4.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
+    //   this.plane.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
     //   // planeMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
     //   // txtMesh.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
     //   // txtMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
@@ -892,7 +1118,7 @@ class objModel extends load {
     //   // );
     // });
     // folder.add(guiObj, "p_y", -100, 100).onChange(() => {
-    //   planeMeshCard4.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
+    //   this.plane.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
     //   // planeMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
     //   // txtMesh.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
     //   // txtMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
@@ -902,14 +1128,14 @@ class objModel extends load {
     //   // );
     // });
     // folder.add(guiObj, "p_z", -100.0, 100.0).onChange(() => {
-    //   planeMeshCard4.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    // planeMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    // txtMesh.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    // txtMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    // planeGeometry3 = new THREE.PlaneGeometry(
-    //   window.innerWidth / guiObj.w,
-    //   window.innerHeight / guiObj.h
-    // );
+    //   this.plane.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
+    //   // planeMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
+    //   // txtMesh.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
+    //   // txtMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
+    //   // planeGeometry3 = new THREE.PlaneGeometry(
+    //   //   window.innerWidth / guiObj.w,
+    //   //   window.innerHeight / guiObj.h
+    //   // );
     // });
     // folder.add(guiObj, "w", 0, 2).onChange(() => {
     //   // planeMeshCard4.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
