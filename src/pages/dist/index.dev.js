@@ -6,8 +6,6 @@ var THREE = _interopRequireWildcard(require("three"));
 
 var controls = _interopRequireWildcard(require("three-orbit-controls"));
 
-var _dat = require("dat.gui");
-
 var _GLTFLoader = require("three/examples/jsm/loaders/GLTFLoader");
 
 var _text = require("./_text");
@@ -15,6 +13,10 @@ var _text = require("./_text");
 var _postprocessing = require("postprocessing");
 
 var _shader = require("./shader");
+
+var _helvetiker_regularTypeface = _interopRequireDefault(require("three/examples/fonts/helvetiker_regular.typeface.json"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -58,7 +60,9 @@ window.addEventListener("DOMContentLoaded", function () {
 });
 
 function into() {
-  // モバイルのスクロール停止
+  // スクロールをゼロにしとく
+  scrollTo(0, 0); // モバイルのスクロール停止
+
   var mainScroll = document.querySelector("body");
   setTimeout(function () {
     mainScroll.style.overflow = "hidden";
@@ -84,7 +88,8 @@ function into() {
     hasMoving = true;
     item.classList.add("animate__animated");
     item.classList.add("animate__lightSpeedOutRight");
-  });
+  }); // 一番重要なやつ
+
   var loader = new objModel(); // hoverイベント ページ画面
   // canvas 要素の参照を取得する
 
@@ -108,8 +113,49 @@ function into() {
     loader.uniforms.mouse.value.y = event.pageY;
   }); // レイキャストを作成
 
-  var raycaster = new THREE.Raycaster(); // clickイベント ページ画面
-  // レスポンシブ
+  var rayCaster = new THREE.Raycaster(); // clickイベント ページ画面
+  // マウス座標管理用のベクトルを作成
+
+  var mouseClick = new THREE.Vector2();
+  var rayCasterClick = rayCaster; // マウスイベントを登録
+
+  canvas.addEventListener("click", function (event) {
+    var element = event.currentTarget; // canvas要素上のXY座標
+
+    var x = event.clientX - element.offsetLeft;
+    var y = event.clientY - element.offsetTop; // canvas要素の幅・高さ
+
+    var w = element.offsetWidth;
+    var h = element.offsetHeight; // -1〜+1の範囲で現在のマウス座標を登録する
+
+    mouseClick.x = x / w * 2 - 1;
+    mouseClick.y = -(y / h) * 2 + 1;
+    rayCasterClick.setFromCamera(mouseClick, loader.camera); // その光線とぶつかったオブジェクトを得る
+
+    var intersectsClick = rayCasterClick.intersectObjects(scene.children);
+
+    if (intersectsClick.length > 0) {
+      if (intersectsClick[0].object.name == "youTubeMesh") {
+        window.open("https://www.youtube.com/watch?v=rGspsil3dn0", "_blank");
+      }
+
+      if (intersectsClick[0].object.name == "instMesh") {
+        window.open("https://www.instagram.com/___u5____/", "_blank");
+      }
+
+      if (intersectsClick[0].object.name == "tweMesh") {
+        window.open("https://twitter.com/u5musicxit", "_blank");
+      }
+
+      if (intersectsClick[0].object.name == "gitMesh") {
+        window.open("https://github.com/yugo333", "_blank");
+      }
+
+      if (intersectsClick[0].object.name == "contact") {
+        location.href = "mailto:" + "soundyg0312@gmail.com" + "?subject=" + "お問い合わせホーム" + "&body=" + "内容を記載してください";
+      }
+    }
+  }); // レスポンシブ
 
   function canvas_resize() {
     // サイズを取得
@@ -455,8 +501,8 @@ function into() {
       if (scrollPage) {
         //スクロール出来るようにしハイトも大きくする
         // モバイルだとなんか変になるので小ちゃくする
-        if (window.innerWidth < 960) {
-          mainScroll.style.height = "1250px";
+        if (window.innerWidth < 1000) {
+          mainScroll.style.height = "1280px";
         } else {
           mainScroll.style.height = "1900px";
         }
@@ -479,7 +525,7 @@ function into() {
       loader.dia.rotation.z += 0.01;
       loader.dia2.rotation.z += 0.01; // ホバー 処理
 
-      hasObjHover = true; //ここのプレートは初期画面の写り込みの隠しとページ表示時のオパシティーの役割
+      hasObjHover = true; //ここのプレートは初期画面の写り込みの隠しとページ表示時のオパシティーの役割(glslをフワッと表示させる)
 
       loader.plane.position.set(-10, 0, -52.6);
       loader.plane.rotation.y = Math.PI / 2;
@@ -506,9 +552,9 @@ function into() {
     if (hasObjHover) {
       // hover時のレイキャスターにてオブジェクト取得
       // レイキャスト = マウス位置からまっすぐに伸びる光線ベクトルを生成
-      raycaster.setFromCamera(mouse, loader.camera); // その光線とぶつかったオブジェクトを得る
+      rayCaster.setFromCamera(mouse, loader.camera); // その光線とぶつかったオブジェクトを得る
 
-      var intersects = raycaster.intersectObjects(scene.children); // console.log(intersects);
+      var intersects = rayCaster.intersectObjects(scene.children); // console.log(intersects);
 
       if (intersects.length > 0) {
         // ぶつかったオブジェクトに対してなんかする
@@ -534,6 +580,12 @@ function into() {
           loader.gitMesh.scale.x = 1.5;
         } else {
           loader.gitMesh.scale.x = 1;
+        }
+
+        if (intersects[0].object.name == "contact") {
+          loader.title4Mesh.scale.x = 1.5;
+        } else {
+          loader.title4Mesh.scale.x = 1;
         }
       }
     } // リセット処理 初期状態に戻す
@@ -966,12 +1018,13 @@ function (_load) {
       transparent: true,
       opacity: 0.9
     });
-    var title4Mesh = new THREE.Mesh(title4Geometry, title4Material);
-    title4Mesh.rotation.y = 90 / 180 * Math.PI;
-    title4Mesh.position.z = textPositionZ;
-    title4Mesh.position.y = -8.5 + textPositionY;
-    title4Mesh.position.x = textPositionX + 1;
-    scene.add(title4Mesh); // 背景8
+    _this.title4Mesh = new THREE.Mesh(title4Geometry, title4Material);
+    _this.title4Mesh.rotation.y = 90 / 180 * Math.PI;
+    _this.title4Mesh.position.z = textPositionZ;
+    _this.title4Mesh.position.y = -8.5 + textPositionY;
+    _this.title4Mesh.position.x = textPositionX + 1;
+    _this.title4Mesh.name = "contact";
+    scene.add(_this.title4Mesh); // 背景8
 
     var texture8 = texLoader.load("../assets/images/yugo.jpg");
     var planeGeometry8 = new THREE.PlaneGeometry(4, 2);
@@ -985,7 +1038,26 @@ function (_load) {
     planeMesh8.position.z = textPositionZ;
     planeMesh8.position.y = -8.5 + textPositionY;
     planeMesh8.position.x = textPositionX;
-    scene.add(planeMesh8); //ローダーで画像読み込み
+    scene.add(planeMesh8); // フッター的なやつ
+
+    var profileText3D = new THREE.FontLoader().parse(_helvetiker_regularTypeface["default"]);
+    var zTextGeometry = new THREE.TextGeometry("U5 official MUSIC x IT 2020", {
+      font: profileText3D,
+      size: 0.05,
+      height: 0.05,
+      curveSegments: 3,
+      bevelSize: 0.1
+    }); // テキストの中央を原点に合わせる
+
+    zTextGeometry.center();
+    _this.fMesh = new THREE.Mesh(zTextGeometry, new THREE.MeshBasicMaterial({
+      color: 0xffffff
+    }));
+    _this.fMesh.rotation.y = 90 / 180 * Math.PI;
+    _this.fMesh.position.z = textPositionZ;
+    _this.fMesh.position.y = -10 + textPositionY;
+    _this.fMesh.position.x = textPositionX;
+    scene.add(_this.fMesh); //ローダーで画像読み込み
 
     var urls = [//画像配置決まってる
     "../assets/images/posx.jpg", "../assets/images/negx.jpg", "../assets/images/posy.jpg", "../assets/images/negy.jpg", "../assets/images/posz.jpg", "../assets/images/negz.jpg"];
