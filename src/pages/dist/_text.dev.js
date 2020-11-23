@@ -76,13 +76,13 @@ function () {
         color.setHSL(h, s, l);
         var d = 10 * (0.5 - Math.random());
 
-        for (var i = 0; i < 3; i++) {
-          colors[index + 3 * i] = color.r;
-          colors[index + 3 * i + 1] = color.g;
-          colors[index + 3 * i + 2] = color.b;
-          displacement[index + 3 * i] = d;
-          displacement[index + 3 * i + 1] = d;
-          displacement[index + 3 * i + 2] = d;
+        for (var t = 0; t < 3; t++) {
+          colors[index + 3 * t] = color.r;
+          colors[index + 3 * t + 1] = color.g;
+          colors[index + 3 * t + 2] = color.b;
+          displacement[index + 3 * t] = d;
+          displacement[index + 3 * t + 1] = d;
+          displacement[index + 3 * t + 2] = d;
         }
       }
 

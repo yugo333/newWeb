@@ -5,14 +5,17 @@ import * as controls from "three-orbit-controls";
 // import { GUI } from "dat.gui";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Text } from "./_text";
+
 import {
   BloomEffect,
   EffectComposer,
   EffectPass,
   RenderPass,
 } from "postprocessing";
+
 import { Shader } from "./shader";
 import textJson from "three/examples/fonts/helvetiker_regular.typeface.json";
+import { SoftParticlesShader } from "./shaders/_SoftParticlesShader";
 
 // ローディング時の処理のタグ
 const firstLoading = document.getElementById("loading");
@@ -21,20 +24,27 @@ const mainSide = document.getElementById("mainSide");
 // window（携帯）横にさせる
 const wsp = document.getElementById("windowSizePic");
 let windowWidth = false;
+//サイドメニューの親
+const item = document.querySelector("#container");
 
 let scene = new THREE.Scene();
 
 window.addEventListener("DOMContentLoaded", () => {
   // スクロールをゼロにしとく
-  scrollTo(0, 0);
+  window.scrollTo(0, 0);
   // メインの関数
   const int = new into();
   int.onload = setTimeout(() => {
     // ローティング画面
-    firstLoading.style.zIndex = 0;
+    // firstLoading.style.zIndex = 0;
+    firstLoading.remove();
     mainSide.style.opacity = 1;
     header.style.opacity = 1;
+    //canvasアニメ
     windowWidth = true;
+    //sideイン
+    item.classList.add("animate__animated");
+    item.classList.add("animate__lightSpeedInRight");
   }, 5000);
 });
 
@@ -56,7 +66,6 @@ function into() {
     { passive: false }
   );
   //hoverイベント 初期画面
-  const item = document.querySelector("#container");
   let onmouseenter = false;
   item.addEventListener("mouseover", () => {
     onmouseenter = true;
@@ -64,13 +73,58 @@ function into() {
 
   // clickイベント 初期画面
   const about = document.querySelector("#about");
+  const works = document.querySelector("#works");
+  const link = document.querySelector("#link");
+  const contact = document.querySelector("#contact");
   let hasRolling = false;
   let hasMoving = false;
+  let pageScrollPosition = 0;
+  let hasScrollRock = true;
   about.addEventListener("click", () => {
     hasRolling = true;
     hasMoving = true;
     item.classList.add("animate__animated");
     item.classList.add("animate__lightSpeedOutRight");
+    pageScrollPosition = 0;
+    hasScrollRock = false;
+  });
+  works.addEventListener("click", () => {
+    hasRolling = true;
+    hasMoving = true;
+    item.classList.add("animate__animated");
+    item.classList.add("animate__lightSpeedOutRight");
+    //245
+    pageScrollPosition = 245;
+    hasScrollRock = false;
+  });
+  link.addEventListener("click", () => {
+    hasRolling = true;
+    hasMoving = true;
+    item.classList.add("animate__animated");
+    item.classList.add("animate__lightSpeedOutRight");
+    //510
+    pageScrollPosition = 510;
+    hasScrollRock = false;
+  });
+  contact.addEventListener("click", () => {
+    hasRolling = true;
+    hasMoving = true;
+    item.classList.add("animate__animated");
+    item.classList.add("animate__lightSpeedOutRight");
+    //845
+    pageScrollPosition = 845;
+    hasScrollRock = false;
+  });
+
+  // ホーム戻るclickイベント
+  let hasGoBackHome = false;
+  const goHome = document.querySelector("#home");
+  const goHomeLog = document.querySelector("#logHome");
+  goHome.addEventListener("click", () => {
+    hasGoBackHome = true;
+  });
+  goHomeLog.addEventListener("click", () => {
+    hasGoBackHome = true;
   });
 
   // 一番重要なやつ
@@ -219,7 +273,6 @@ function into() {
   let nextMoveCount = 0;
   let nextMoveCount2 = 0;
   let hasMoveCamera = false;
-  let timeoutId;
   let hasShot = false;
   let hasRollingCamera = false;
   let orbitSpin = 0;
@@ -232,6 +285,8 @@ function into() {
   let scrollPage = false;
   //オブジェクトのホバーイベント
   let hasObjHover = false;
+  //初期画面雲
+  let hasSmoke = false;
 
   function render() {
     if (windowWidth) {
@@ -255,6 +310,17 @@ function into() {
       // ロード時に左側から現れる演出
       if (loader.plane.position.x < 41) {
         loader.plane.position.x += 0.05;
+        loader.plane.position.z -= 0.01;
+        if (loader.plane.position.x > 40.5) {
+          hasSmoke = true;
+        }
+      }
+      if (hasSmoke) {
+        if (loader.plane.position.z > -1) {
+          loader.plane.position.z -= 0.03;
+        } else {
+          hasSmoke = false;
+        }
       }
     }
 
@@ -315,7 +381,7 @@ function into() {
       if (loader.camera.position.z > -2) {
         loader.camera.position.z -= 0.15;
       } else {
-        timeoutId = setTimeout(() => {
+        setTimeout(() => {
           hasShot = true;
         }, 300);
       }
@@ -371,7 +437,7 @@ function into() {
           loader.Controls.autoRotateSpeed = 5;
         } else {
           loader.Controls.autoRotateSpeed = 60;
-          timeoutId = setTimeout(() => {
+          setTimeout(() => {
             destroy = true;
           }, 2000);
         }
@@ -451,7 +517,7 @@ function into() {
       // ダイアの反射が強くなるためライト暗くする
       loader.light1.intensity = 3;
       loader.hiLight.intensity = 6;
-      if (loader.camera.position.y >= -7.1) {
+      if (loader.camera.position.y >= -7) {
         cameraPositionDownY -= 0.1;
         // カメラの向く方向
         loader.camera.position.y = cameraPositionDownY;
@@ -470,6 +536,7 @@ function into() {
           mainScroll.style.height = "1900px";
         }
         mainScroll.style.overflowY = "auto";
+
         //カメラが動ききってからスクロールできるようにする
         let y = window.pageYOffset / 100;
         loader.camera.position.y = -y - 7;
@@ -477,6 +544,11 @@ function into() {
         loader.Controls.update();
         loader.dia.position.y = -7 - y;
         loader.dia2.position.y = -7 - y;
+        //サイドメニューのボタンのいちに強制スクロール
+        if (hasScrollRock === false) {
+          window.scrollTo(0, pageScrollPosition);
+          hasScrollRock = true;
+        }
       }
       // ダイアの回転
       loader.dia.rotation.x += 0.01;
@@ -568,6 +640,8 @@ function into() {
       // 風も初期位置へ
       loader.torus.position.z = -37.2;
       loader.torus.scale.x = 1;
+
+      resetAnimation = false;
     }
 
     // hover時の回転処理
@@ -609,17 +683,30 @@ function into() {
       uniformsAudio.tAudioData.value.needsUpdate = true;
 
       let addSize = 0.2 + data[0] * 0.00025;
+      let addSize2 = 0.2 + data[0] * 0.0025;
 
+      //ダイア
       loader.dia.scale.set(addSize, addSize, addSize);
       loader.dia2.scale.set(addSize, addSize, addSize);
+      // スカル
+      const defaultSkull = 1;
+      loader.skullBone.rotation.x = defaultSkull + addSize2;
+      loader.skullBone2.rotation.x = defaultSkull + addSize2;
     }
+    // 雲
+    loader.smokeParticles.rotation.x += 0.0004;
 
     // shaderGLSLのタイム
     loader.uniforms.time.value += 0.05;
 
+    // ホーム戻る
+    if (hasGoBackHome) {
+      //むしろリロード
+      location.reload();
+    }
+
     // れんだりんぐ
     // loader.renderer.render(scene, loader.camera);
-    // loader.cssRenderer.render(CssScene, loader.camera);
     loader.composer.render();
     // 本来下記のメソットがこの関数の一番上にくる
     requestAnimationFrame(render);
@@ -686,51 +773,6 @@ class load {
     this.Controls.enablePan = false;
     this.Controls.enabled = false;
     this.Controls.update();
-
-    // // GUIパラメータ
-    // function guiCtrl() {
-    //   this.Camera_x = 0;
-    //   this.Camera_y = 0;
-    //   this.Camera_z = 100;
-    //   this.Message = "";
-    //   this.color = "#c2dc94";
-    //   this.alert = function () {
-    //     alert("サンプル");
-    //   };
-    // }
-
-    // const gui = new GUI();
-    // let folder = gui.addFolder("Folder");
-    // let guiObj = new guiCtrl();
-    // folder.add(guiObj, "Camera_x", -500, 1000).onChange(() => {
-    //   this.new = this.light1.position.set(
-    //     guiObj.Camera_x,
-    //     guiObj.Camera_y,
-    //     guiObj.Camera_z
-    //   );
-    //   this.light1.position.add(this.new);
-    //   scene.add(this.light1);
-    // });
-    // folder.add(guiObj, "Camera_y", -500, 1000).onChange(() => {
-    //   this.new = this.light1.position.set(
-    //     guiObj.Camera_x,
-    //     guiObj.Camera_y,
-    //     guiObj.Camera_z
-    //   );
-    //   this.light1.position.add(this.new);
-    //   scene.add(this.light1);
-    // });
-    // folder.add(guiObj, "Camera_z", -500, 1000).onChange(() => {
-    //   this.new = this.light1.position.set(
-    //     guiObj.Camera_x,
-    //     guiObj.Camera_y,
-    //     guiObj.Camera_z
-    //   );
-    //   this.light1.position.add(this.new);
-    //   scene.add(this.light1);
-    // });
-    // folder.add(guiObj, "alert");
-    // folder.open();
   }
 }
 
@@ -1089,6 +1131,8 @@ class objModel extends load {
       scene.add(this.dia);
       scene.add(this.dia2);
     });
+
+    //便利板
     const geometryPlane = new THREE.PlaneGeometry(80, 80, 32);
     const materialPlane = new THREE.MeshBasicMaterial({
       color: 0x000000,
@@ -1101,194 +1145,126 @@ class objModel extends load {
     // this.plane.position.set(41, 0, 1);
     scene.add(this.plane);
 
-    // // 大量のダイヤ
-    // const dm = require("../assets/images/diamond22.glb");
-    // this.groupD = new THREE.Group();
-    // this.groupD.name = "groupD";
-    // for (let index = 0; index < 40; index++) {
-    //   GLoader.load(dm, (gltf) => {
-    //     this.anderDia = gltf.scene;
-    //     this.anderDia2 = this.anderDia.clone();
-    //     var color = { r: 0, g: 0, b: 0 }; // RGB 0～255の値で設定
-    //     for (var i in color) {
-    //       color[i] = Math.floor(Math.random() * 256);
-    //     }
+    // skull
+    const GLB5 = require("../assets/images/skullUp.glb");
+    const GLB6 = require("../assets/images/skullDown.glb");
+    GLoader.load(GLB5, (gltf) => {
+      this.skull = gltf.scene;
+      this.skullClone = this.skull.clone();
+      this.skull.scale.set(0.6, 0.6, 0.6);
+      this.skull.rotation.y = (120 / 180) * Math.PI;
+      this.skull.position.z = textPositionZ + 1.3;
+      this.skull.position.y = -9.3 + textPositionY;
+      this.skull.position.x = textPositionX + 1;
+      this.skullClone.scale.set(0.6, 0.6, 0.6);
+      this.skullClone.rotation.y = (60 / 180) * Math.PI;
+      this.skullClone.position.z = textPositionZ - 1.3;
+      this.skullClone.position.y = -9.3 + textPositionY;
+      this.skullClone.position.x = textPositionX + 1;
+      scene.add(this.skull);
+      scene.add(this.skullClone);
+    });
+    GLoader.load(GLB6, (gltf) => {
+      this.skull2 = gltf.scene;
+      this.skull2.scale.set(0.6, 0.6, 0.6);
+      this.skull2.rotation.y = (120 / 180) * Math.PI;
+      this.skull2.position.z = textPositionZ + 1.3;
+      this.skull2.position.y = -9.3 + textPositionY;
+      this.skull2.position.x = textPositionX + 1;
+      this.skullBone = this.skull2.children[0].children[0];
+      scene.add(this.skull2);
+    });
+    GLoader.load(GLB6, (gltf) => {
+      this.skull2Clone = gltf.scene;
+      this.skull2Clone.scale.set(0.6, 0.6, 0.6);
+      this.skull2Clone.rotation.y = (60 / 180) * Math.PI;
+      this.skull2Clone.position.z = textPositionZ - 1.3;
+      this.skull2Clone.position.y = -9.3 + textPositionY;
+      this.skull2Clone.position.x = textPositionX + 1;
+      this.skullBone2 = this.skull2Clone.children[0].children[0];
+      scene.add(this.skull2Clone);
+    });
 
-    //     this.anderDia.traverse((o) => {
-    //       o.material = new THREE.MeshLambertMaterial({
-    //         color: new THREE.Color(`rgb(${color.r},${color.g},${color.b})`),
-    //         envMap: cubeTexture,
-    //         refractionRatio: 0.8, //屈折
-    //         opacity: 0.8, //不透明度で反射具合を調整
-    //         transparent: true, //透明を有効に
-    //       });
-    //     });
-    //     this.anderDia2.traverse((o) => {
-    //       o.material = new THREE.MeshLambertMaterial({
-    //         color: new THREE.Color(`rgb(${color.r},${color.g},${color.b})`),
-    //         envMap: cubeTexture, //反射マッピングのcubeCameraで作成した環境マッピングを適用
-    //         reflectivity: 1, //反射率
-    //         opacity: 0.6, //不透明度で反射具合を調整
-    //         transparent: true, //透明を有効に
-    //       });
-    //     });
+    // SMOKE
+    // Textures
+    this.smokeTexture = new THREE.TextureLoader().load(
+      "../../assets/images/cloud.png"
+    );
 
-    //     this.anderDia.scale.set(0.2, 0.2, 0.2);
-    //     this.anderDia2.scale.set(0.2, 0.2, 0.2);
-    //     // dia.scale.set(200, 200, 200); //diaのサイズ
-    //     let z = Math.random() * 5 - 2.5;
-    //     this.anderDia.position.z = textPositionZ - z;
-    //     this.anderDia2.position.z = textPositionZ - z;
-    //     let y = Math.random();
-    //     this.anderDia.position.y = -10.1 + textPositionY + y;
-    //     this.anderDia2.position.y = -10.1 + textPositionY + y;
-    //     let x = Math.random() * 2 - 1;
-    //     this.anderDia.position.x = textPositionX + 0.5 + x;
-    //     this.anderDia2.position.x = textPositionX + 0.5 + x;
-    //     this.anderDia.rotation.set(z, y, x);
-    //     this.anderDia2.rotation.set(z, y, x);
-    //     this.groupD.add(this.anderDia);
-    //     this.groupD.add(this.anderDia2);
-    //   });
-    // }
+    var smokeGeo = new THREE.BufferGeometry();
 
-    // scene.add(this.groupD);
-    // // console.log(scene);
+    var numOfParticles = 15; // 20
+    var spreadX = 5,
+      spreadY = -0.5,
+      spreadZ = 1; // 18 4 18
+    var origin = new THREE.Vector3(0, 1, 0); // 0 1 0
+
+    var posArr = [];
+
+    for (var i = 0; i < numOfParticles; i++) {
+      var x = Math.random() * spreadX - spreadX / 2.0 + origin.x;
+      var y = Math.random() * spreadY - spreadY / 2.0 - origin.y;
+      var z = spreadZ;
+
+      posArr.push(x, y, z);
+    }
+
+    smokeGeo.setAttribute(
+      "position",
+      new THREE.Float32BufferAttribute(posArr, 3)
+    );
+
+    var softParticlesMaterial = new THREE.ShaderMaterial({
+      defines: Object.assign({}, new SoftParticlesShader().defines()),
+      uniforms: THREE.UniformsUtils.clone(new SoftParticlesShader().uniforms()),
+      vertexShader: new SoftParticlesShader().vertexShader(),
+      fragmentShader: new SoftParticlesShader().fragmentShader(),
+
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthTest: false,
+      depthWrite: false,
+    });
+
+    softParticlesMaterial.map = this.smokeTexture;
+
+    var uniforms = softParticlesMaterial.uniforms;
+
+    uniforms.map.value = this.smokeTexture;
+    uniforms.diffuse.value = new THREE.Color(1, 1, 1);
+    uniforms.size.value = 15;
+    uniforms.opacity.value = 0.3;
+    uniforms.sizeAttenuation.value = true;
+    uniforms.fCamNear.value = this.camera.near;
+    uniforms.fCamFar.value = this.camera.far;
+    uniforms.screenSize.value = new THREE.Vector2(
+      window.innerWidth,
+      window.innerHeight
+    );
+
+    this.smokeParticles = new THREE.Points(smokeGeo, softParticlesMaterial);
+    this.smokeParticles.frustumCulled = false;
+    scene.add(this.smokeParticles);
+
+    var depthTexture = new THREE.DepthTexture();
+    depthTexture.type = THREE.UnsignedShortType;
+    depthTexture.minFilter = THREE.NearestFilter;
+    depthTexture.maxFilter = THREE.NearestFilter;
+
+    this.renderTarget = new THREE.WebGLRenderTarget(
+      window.innerWidth,
+      window.innerHeight,
+      {
+        format: THREE.RGBAFormat,
+        depthTexture: depthTexture,
+      }
+    );
+
+    this.smokeParticles.material.uniforms.sceneDepthTexture.value = depthTexture;
 
     //プロセシングにthis.rendererを置き換える神々しくなる
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(scene, this.camera));
     this.composer.addPass(new EffectPass(this.camera, new BloomEffect()));
-
-    //CSSRendererを使ったURL表示
-    // this.cssRenderer = new CSS3DRenderer();
-    // this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
-    // document
-    //   .getElementById("objLoader")
-    //   .appendChild(this.cssRenderer.domElement);
-    // this.element = document.createElement("#iframe");
-    // this.element.src = "https://www.youtube.com/embed/tRdY4s_2D88";
-    // this.element.style.width = "300px";
-    // this.element.style.height = "400px";
-    // this.cssObject = new CSS3DObject(this.element);
-    // CssScene.add(this.cssObject);
-
-    // //GUI page
-    // function guiCtrl() {
-    //   this.p_x = textPositionX;
-    //   this.p_y = textPositionY;
-    //   this.p_z = textPositionZ;
-    //   this.w = 0.9;
-    //   this.h = 1;
-    //   this.r = 0;
-    // }
-    // const gui = new GUI();
-    // let folder = gui.addFolder("Folder");
-    // let guiObj = new guiCtrl();
-    // folder.add(guiObj, "p_x", -100, 100).onChange(() => {
-    //   this.plane.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // planeMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // txtMesh.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // txtMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // planeGeometry3 = new THREE.PlaneGeometry(
-    //   //   window.innerWidth / guiObj.w,
-    //   //   window.innerHeight / guiObj.h
-    //   // );
-    // });
-    // folder.add(guiObj, "p_y", -100, 100).onChange(() => {
-    //   this.plane.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // planeMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // txtMesh.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // txtMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // planeGeometry3 = new THREE.PlaneGeometry(
-    //   //   window.innerWidth / guiObj.w,
-    //   //   window.innerHeight / guiObj.h
-    //   // );
-    // });
-    // folder.add(guiObj, "p_z", -100.0, 100.0).onChange(() => {
-    //   this.plane.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // planeMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // txtMesh.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // txtMesh2.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   // planeGeometry3 = new THREE.PlaneGeometry(
-    //   //   window.innerWidth / guiObj.w,
-    //   //   window.innerHeight / guiObj.h
-    //   // );
-    // });
-    // folder.add(guiObj, "w", 0, 2).onChange(() => {
-    //   // planeMeshCard4.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   planeMeshCard4.geometry.dispose();
-    //   planeMeshCard4.geometry = new THREE.PlaneGeometry(guiObj.w, guiObj.h);
-    // });
-    // folder.add(guiObj, "h", 0, 2).onChange(() => {
-    //   // planeMeshCard4.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    //   planeMeshCard4.geometry.dispose();
-    //   planeMeshCard4.geometry = new THREE.PlaneGeometry(guiObj.w, guiObj.h);
-    // });
-    // folder.add(guiObj, "r", -10.0, 10.0).onChange(() => {
-    //   planeMeshCard4.rotation.x = guiObj.r;
-    // });
-
-    // // GUIパラメータ
-    // function guiCtrl() {
-    //   this.size_r = 0.0;
-    //   this.size_t = 0.0;
-    //   this.p_x = 0;
-    //   this.p_y = 0;
-    //   this.p_z = 0;
-    //   this.op = 1;
-    //   this.color = "#c2dc94";
-    // }
-
-    // const gui = new GUI();
-    // let folder = gui.addFolder("Folder");
-    // let guiObj = new guiCtrl();
-    // folder.add(guiObj, "size_r", 0.0, 5.0).onChange(() => {
-    //   this.torus.scale.x = guiObj.size_r;
-
-    //   // this.torus.geometry.dispose();
-    //   // this.torus.geometry = new THREE.TorusGeometry(
-    //   //   guiObj.size_r,
-    //   //   guiObj.size_t,
-    //   //   16,
-    //   //   100
-    //   // );
-    // });
-    // folder.add(guiObj, "size_t", -1, 5.0).onChange(() => {
-    //   this.torus.scale.y = guiObj.size_t;
-
-    //   // this.torus.geometry.dispose();
-    //   // this.torus.geometry = new THREE.TorusGeometry(
-    //   //   guiObj.size_r,
-    //   //   guiObj.size_t,
-    //   //   16,
-    //   //   100
-    //   // );
-    // });
-    // folder.add(guiObj, "p_x", -10, 10).onChange(() => {
-    //   this.torus.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    // });
-    // folder.add(guiObj, "p_y", -10, 10).onChange(() => {
-    //   this.torus.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    // });
-    // folder.add(guiObj, "p_z", -50.0, 50.0).onChange(() => {
-    //   this.torus.position.set(guiObj.p_x, guiObj.p_y, guiObj.p_z);
-    // });
-    // folder.add(guiObj, "op", 0, 1).onChange(() => {
-    //   this.torus.material.dispose();
-    //   this.torus.material = new THREE.MeshBasicMaterial({
-    //     color: guiObj.color,
-    //     transparent: true,
-    //     opacity: guiObj.op,
-    //   });
-    // });
-    // folder.addColor(guiObj, "color").onChange(() => {
-    //   this.torus.material.dispose();
-    //   this.torus.material = new THREE.MeshBasicMaterial({
-    //     color: guiObj.color,
-    //     transparent: true,
-    //     opacity: guiObj.op,
-    //   });
-    // });
   }
 }
