@@ -241,7 +241,7 @@ function into() {
 
       sound = new THREE.Audio(listener); // load a sound and set it as the Audio object's buffer
 
-      var mp3 = require("../assets/images/The-sound-of-rain.mp3");
+      var mp3 = require("../assets/images/webSound.mp3");
 
       var audioLoader = new THREE.AudioLoader();
       audioLoader.load(mp3, function (buffer) {
