@@ -291,6 +291,14 @@ function into() {
   function render() {
     if (windowWidth) {
       // 携帯でみたとき画面横にさせる表示(パワープレー)
+      if (window.innerWidth < 560 && window.innerHeight < 560) {
+        wsp.style.position = "fixed";
+        wsp.style.zIndex = 9;
+        wsp.style.top = 0;
+        wsp.style.width = "100vw";
+        wsp.style.height = "100vh";
+        wsp.style.opacity = 1;
+      }
       if (window.innerWidth < window.innerHeight) {
         wsp.style.position = "fixed";
         wsp.style.zIndex = 9;
@@ -307,6 +315,7 @@ function into() {
         wsp.style.height = "1px";
         wsp.style.opacity = 0;
       }
+
       // ロード時に左側から現れる演出
       if (loader.plane.position.x < 41) {
         loader.plane.position.x += 0.05;
@@ -531,7 +540,9 @@ function into() {
         //スクロール出来るようにしハイトも大きくする
         // モバイルだとなんか変になるので小ちゃくする
         if (window.innerWidth < 1000) {
-          mainScroll.style.height = "1280px";
+          mainScroll.style.height = "1300px";
+        } else if (window.innerWidth > 1000 && window.innerWidth < 1700) {
+          mainScroll.style.height = "1800px";
         } else {
           mainScroll.style.height = "1900px";
         }
@@ -694,7 +705,7 @@ function into() {
       loader.skullBone2.rotation.x = defaultSkull + addSize2;
     }
     // 雲
-    loader.smokeParticles.rotation.x += 0.0004;
+    loader.smokeParticles.rotation.z += 0.0004;
 
     // shaderGLSLのタイム
     loader.uniforms.time.value += 0.05;
@@ -1193,7 +1204,7 @@ class objModel extends load {
 
     var smokeGeo = new THREE.BufferGeometry();
 
-    var numOfParticles = 15; // 20
+    var numOfParticles = 10; // 20
     var spreadX = 5,
       spreadY = -0.5,
       spreadZ = 1; // 18 4 18
