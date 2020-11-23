@@ -1,8 +1,8 @@
 {
-  "name": "vanilla-javacript-boilerplate",
+  "name": "u5Web ",
   "version": "1.0.0",
   "private": true,
-  "description": "A boilerplate of Vanilla-JavaScript, SCSS with Webpack 4",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "eslint": "eslint --fix 'src/**/*.js'",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/astatsuya/vanilla-javascript-boilerplate"
+    "url": "git+https://github.com/yugo333/newWeb"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
