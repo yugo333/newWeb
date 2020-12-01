@@ -20,7 +20,6 @@ export class Text {
         bevelEnabled: true,
       });
       let z_position = i * 1.75 - 1.6;
-      // console.log(X_position);
       this._eachTexts(geometry, z_position);
     }
   }

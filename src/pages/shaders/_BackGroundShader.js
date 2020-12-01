@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export class Shader {
+export class BackGroundShader {
   uniforms() {
     const uniforms = {
       time: { type: "f", value: 1.0 },
