@@ -509,6 +509,8 @@ function into() {
 
     // アニメーション後のページ表示
     if (changePage) {
+      loader.dia.material.opacity = 0.8;
+      loader.dia2.material.opacity = 0.6;
       // ダイアの反射が強くなるためライト暗くする
       loader.light1.intensity = 3;
       loader.hiLight.intensity = 6;
@@ -527,9 +529,11 @@ function into() {
         // モバイルだとなんか変になるので小ちゃくする
         if (window.innerWidth < 1000) {
           mainScroll.style.height = "1300px";
-        } else if (window.innerWidth > 1000 && window.innerWidth < 1700) {
-          mainScroll.style.height = "1800px";
-        } else {
+        }
+        //  else if (window.innerWidth > 1000 && window.innerWidth < 1700) {
+        //   mainScroll.style.height = "1850px";
+        // }
+        else {
           mainScroll.style.height = "1900px";
         }
         mainScroll.style.overflowY = "auto";

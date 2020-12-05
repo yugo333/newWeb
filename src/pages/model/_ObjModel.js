@@ -332,14 +332,16 @@ export class ObjModel extends load {
       color: 0xf0f0ff,
       envMap: cubeTexture,
       refractionRatio: 0.8, //屈折
-      opacity: 0.8, //不透明度で反射具合を調整
+      // opacity: 0.8, //不透明度で反射具合を調整
+      opacity: 0, //不透明度で反射具合を調整
       transparent: true, //透明を有効に
     });
     this.diamMaterial2 = new THREE.MeshLambertMaterial({
       color: 0xcccccc,
       envMap: cubeTexture, //反射マッピングのcubeCameraで作成した環境マッピングを適用
       reflectivity: 1, //反射率
-      opacity: 0.6, //不透明度で反射具合を調整
+      // opacity: 0.6, //不透明度で反射具合を調整
+      opacity: 0, //不透明度で反射具合を調整
       transparent: true, //透明を有効に
     });
     const GLB4 = require("../../assets/images/diamond.glb");

@@ -348,7 +348,8 @@ function (_load) {
       envMap: cubeTexture,
       refractionRatio: 0.8,
       //屈折
-      opacity: 0.8,
+      // opacity: 0.8, //不透明度で反射具合を調整
+      opacity: 0,
       //不透明度で反射具合を調整
       transparent: true //透明を有効に
 
@@ -359,7 +360,8 @@ function (_load) {
       //反射マッピングのcubeCameraで作成した環境マッピングを適用
       reflectivity: 1,
       //反射率
-      opacity: 0.6,
+      // opacity: 0.6, //不透明度で反射具合を調整
+      opacity: 0,
       //不透明度で反射具合を調整
       transparent: true //透明を有効に
 
