@@ -6,8 +6,8 @@ const TerserWebpackPlugin = require("terser-webpack-plugin");
 const OptimizeCssPlugin = require("optimize-css-assets-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-const outputFile = "[name]";
-const assetFile = "[name]";
+const outputFile = "[name].[chunkhash]";
+const assetFile = "[name].[contenthash]";
 // 静的ファイルを保存する場所によって変える。インフラ担当者と要相談。
 const assetPath = "/";
 
