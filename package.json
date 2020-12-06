@@ -63,6 +63,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "webpack-cli": "^3.3.11",
     "aframe-text-geometry-component": "^0.5.1",
     "app": "^0.1.0",
     "axios": "^0.19.2",
