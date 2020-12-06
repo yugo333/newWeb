@@ -11,7 +11,7 @@
     "json-server": "npx json-server --watch mockDB.json",
     "webpack-server": "npx webpack-dev-server --env.file=development --config webpack.dev.js",
     "dev": "npm run webpack-server",
-    "build:development": "npx webpack --env.file=development --config webpack.prod.js",
+    "build:development": "npx webpack --env.file=development --config webpack.dev.js",
     "build:staging": "npx webpack --env.file=staging --config webpack.prod.js",
     "build:production": "npx webpack --env.file=production --config webpack.prod.js"
   },
