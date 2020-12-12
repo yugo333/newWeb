@@ -60,15 +60,10 @@
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
-    "webpack-merge": "^4.2.2"
-  },
-  "dependencies": {
-    "webpack-cli": "^3.3.11",
-    "aframe-text-geometry-component": "^0.5.1",
-    "app": "^0.1.0",
-    "axios": "^0.19.2",
-    "core-js": "3",
-    "core-js-compat": "^3.4.7",
+    "webpack-merge": "^4.2.2",
+    "three-bas": "^2.12.0",
+    "three-orbit-controls": "^82.1.0",
+    "simplex-noise": "^2.4.0",
     "dat.gui": "^0.7.7",
     "glsl-noise": "0.0.0",
     "glsl-random": "0.0.5",
@@ -76,12 +71,17 @@
     "glslify-import-loader": "^0.1.2",
     "glslify-loader": "^1.0.2",
     "gltf-webpack-loader": "^1.0.6",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "dependencies": {
+    "aframe-text-geometry-component": "^0.5.1",
+    "app": "^0.1.0",
+    "axios": "^0.19.2",
+    "core-js": "3",
+    "core-js-compat": "^3.4.7",
     "node": "^14.5.0",
     "postprocessing": "^6.16.0",
-    "simplex-noise": "^2.4.0",
     "three": "^0.120.1",
-    "three-bas": "^2.12.0",
-    "three-orbit-controls": "^82.1.0",
-    "xmlhttprequest": "^1.8.0"
+    "webpack-cli": "^3.3.11"
   }
 }
