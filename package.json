@@ -19,7 +19,20 @@
     "type": "git",
     "url": "git+https://github.com/yugo333/newWeb"
   },
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
+    "file-loader": "^6.0.0",
+    "raw-loader": "^4.0.1",
+    "glslify-loader": "^1.0.2",
+    "aframe-text-geometry-component": "^0.5.1",
+    "app": "^0.1.0",
+    "axios": "^0.19.2",
+    "core-js": "3",
+    "core-js-compat": "^3.4.7",
+    "node": "^14.5.0",
+    "postprocessing": "^6.16.0",
+    "three": "^0.120.1",
+    "webpack-cli": "^3.3.11",
     "@babel/core": "^7.9.6",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/preset-env": "^7.9.6",
@@ -70,19 +83,5 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
     "xmlhttprequest": "^1.8.0"
-  },
-  "dependencies": {
-    "file-loader": "^6.0.0",
-    "raw-loader": "^4.0.1",
-    "glslify-loader": "^1.0.2",
-    "aframe-text-geometry-component": "^0.5.1",
-    "app": "^0.1.0",
-    "axios": "^0.19.2",
-    "core-js": "3",
-    "core-js-compat": "^3.4.7",
-    "node": "^14.5.0",
-    "postprocessing": "^6.16.0",
-    "three": "^0.120.1",
-    "webpack-cli": "^3.3.11"
   }
 }
