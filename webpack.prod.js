@@ -41,6 +41,7 @@ module.exports = (env) => {
         commonConfig({ outputFile, assetFile, envFilePath, assetPath }).entry
       ),
       optimization: {
+        contentBase: path.join(__dirname, "dist"),
         minimizer: [
           // javascriptの最適化
           new TerserWebpackPlugin({
