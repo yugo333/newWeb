@@ -11,7 +11,7 @@ const assetPath = "/";
 module.exports = (env) => {
   // package.jsonのscriptで --env.envFile=で指定されたパスのenvFileを使用する。
   // 指定されていない場合は.env.developmentを使用する
-  const envFilePath = env ? `./env/.env.${env.file}` : "./env/.env.development";
+  const envFilePath = env ? `./env/.env.${env.file}` : "./env/.env.production";
 
   // webpack.common.jsのentryで追加したhtmlファイルを動的に生成する。
   const createHtmlPlugins = (entry) => {
@@ -36,23 +36,22 @@ module.exports = (env) => {
   return webpackMerge(
     commonConfig({ outputFile, assetFile, envFilePath, assetPath }),
     {
-      mode: "development",
-      devtool: "inline-source-map",
+      mode: "production",
       plugins: createHtmlPlugins(
         commonConfig({ outputFile, assetFile, envFilePath, assetPath }).entry
       ),
-      devServer: {
-        contentBase: path.join(__dirname, "dist"),
-        // どのブラウザを自動で立ち上げるか。trueで標準のブラウザ。デフォルトでは立ち上がらない。
-        // open: "Google Chrome",
-        host: "localhost",
-        compress: true,
-        // port番号はデフォルトで8080, 既に使用されている場合は自動で8181になる。指定したい場合はここでする。
-        // port: 3000,
-        watchOptions: {
-          // 差分を検知しないディレクトリ
-          ignored: /node_modules/,
-        },
+      optimization: {
+        minimizer: [
+          // javascriptの最適化
+          new TerserWebpackPlugin({
+            terserOptions: {
+              // consoleを削除する
+              compress: { drop_console: true },
+            },
+          }),
+          // cssの最適化
+          new OptimizeCssPlugin(),
+        ],
       },
     }
   );
