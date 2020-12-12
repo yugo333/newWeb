@@ -12,7 +12,7 @@ export class load {
       55,
       window.innerWidth / window.innerHeight,
       1,
-      10000
+      150
     );
     this.camera.rotation.y = (45 / 180) * Math.IP;
     this.camera.position.x = 0;

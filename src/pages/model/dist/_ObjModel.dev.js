@@ -159,56 +159,56 @@ function (_load) {
     titleMesh.position.x = textPositionX + 1;
     scene.add(titleMesh); // 背景２
 
-    var texture2 = texLoader.load("../../assets/images/w.jpg");
-    var planeGeometry2 = new THREE.PlaneGeometry(4, 2);
+    var texture2 = texLoader.load("../../assets/images/w.jpg"); // let planeGeometry2 = new THREE.PlaneGeometry(4, 2);
+
     var planeMaterial2 = new THREE.MeshBasicMaterial({
       map: texture2,
       transparent: true,
       opacity: 0.7
     });
-    var planeMesh2 = new THREE.Mesh(planeGeometry2, planeMaterial2);
+    var planeMesh2 = new THREE.Mesh(planeGeometry, planeMaterial2);
     planeMesh2.rotation.y = 90 / 180 * Math.PI;
     planeMesh2.position.z = textPositionZ;
     planeMesh2.position.y = -2.5 + textPositionY;
     planeMesh2.position.x = textPositionX;
     scene.add(planeMesh2); // テキスト２
 
-    var text2 = texLoader.load("../../assets/images/text.png");
-    var txtGeometry2 = new THREE.PlaneGeometry(3, 0.6);
+    var text2 = texLoader.load("../../assets/images/text.png"); // let txtGeometry2 = new THREE.PlaneGeometry(3, 0.6);
+
     var txtMaterial2 = new THREE.MeshBasicMaterial({
       map: text2,
       transparent: true,
       opacity: 0.8
     });
-    var txtMesh2 = new THREE.Mesh(txtGeometry2, txtMaterial2);
+    var txtMesh2 = new THREE.Mesh(txtGeometry, txtMaterial2);
     txtMesh2.rotation.y = 90 / 180 * Math.PI;
     txtMesh2.position.z = textPositionZ;
     txtMesh2.position.y = -2.88 + textPositionY;
     txtMesh2.position.x = textPositionX + 1;
     scene.add(txtMesh2); // タイトル2
 
-    var title2 = texLoader.load("../../assets/images/coolTextW.png");
-    var title2Geometry = new THREE.PlaneGeometry(1.5, 0.4);
+    var title2 = texLoader.load("../../assets/images/coolTextW.png"); // let title2Geometry = new THREE.PlaneGeometry(1.5, 0.4);
+
     var title2Material = new THREE.MeshBasicMaterial({
       map: title2,
       transparent: true,
       opacity: 0.9
     });
-    var title2Mesh = new THREE.Mesh(title2Geometry, title2Material);
+    var title2Mesh = new THREE.Mesh(titleGeometry, title2Material);
     title2Mesh.rotation.y = 90 / 180 * Math.PI;
     title2Mesh.position.z = textPositionZ + 0.8;
     title2Mesh.position.y = -2.1 + textPositionY;
     title2Mesh.position.x = textPositionX + 1;
     scene.add(title2Mesh); // タイトル3
 
-    var title3 = texLoader.load("../../assets/images/coolTextL.png");
-    var title3Geometry = new THREE.PlaneGeometry(1.5, 0.4);
+    var title3 = texLoader.load("../../assets/images/coolTextL.png"); // let title3Geometry = new THREE.PlaneGeometry(1.5, 0.4);
+
     var title3Material = new THREE.MeshBasicMaterial({
       map: title3,
       transparent: true,
       opacity: 0.9
     });
-    var title3Mesh = new THREE.Mesh(title3Geometry, title3Material);
+    var title3Mesh = new THREE.Mesh(titleGeometry, title3Material);
     title3Mesh.rotation.y = 90 / 180 * Math.PI;
     title3Mesh.position.z = textPositionZ + 0.8;
     title3Mesh.position.y = -4.5 + textPositionY;
@@ -244,14 +244,14 @@ function (_load) {
     _this.youTubeMesh.position.x = textPositionX + 1;
     scene.add(_this.youTubeMesh); //inst
 
-    var inst = texLoader.load("../../assets/images/l4.png");
-    var instGeometry = new THREE.PlaneGeometry(1.5, 0.4);
+    var inst = texLoader.load("../../assets/images/l4.png"); // let instGeometry = new THREE.PlaneGeometry(1.5, 0.4);
+
     var instMaterial = new THREE.MeshBasicMaterial({
       map: inst,
       transparent: true,
       opacity: 0.9
     });
-    _this.instMesh = new THREE.Mesh(instGeometry, instMaterial);
+    _this.instMesh = new THREE.Mesh(youTubeGeometry, instMaterial);
     _this.instMesh.name = "instMesh";
     _this.instMesh.rotation.y = 90 / 180 * Math.PI;
     _this.instMesh.position.z = textPositionZ;
@@ -259,14 +259,14 @@ function (_load) {
     _this.instMesh.position.x = textPositionX + 1;
     scene.add(_this.instMesh); //twe
 
-    var twe = texLoader.load("../../assets/images/l3.png");
-    var tweGeometry = new THREE.PlaneGeometry(1.5, 0.4);
+    var twe = texLoader.load("../../assets/images/l3.png"); // let tweGeometry = new THREE.PlaneGeometry(1.5, 0.4);
+
     var tweMaterial = new THREE.MeshBasicMaterial({
       map: twe,
       transparent: true,
       opacity: 0.9
     });
-    _this.tweMesh = new THREE.Mesh(tweGeometry, tweMaterial);
+    _this.tweMesh = new THREE.Mesh(youTubeGeometry, tweMaterial);
     _this.tweMesh.name = "tweMesh";
     _this.tweMesh.rotation.y = 90 / 180 * Math.PI;
     _this.tweMesh.position.z = textPositionZ;
@@ -274,14 +274,14 @@ function (_load) {
     _this.tweMesh.position.x = textPositionX + 1;
     scene.add(_this.tweMesh); //git
 
-    var git = texLoader.load("../../assets/images/l2.png");
-    var gitGeometry = new THREE.PlaneGeometry(1.5, 0.4);
+    var git = texLoader.load("../../assets/images/l2.png"); // let gitGeometry = new THREE.PlaneGeometry(1.5, 0.4);
+
     var gitMaterial = new THREE.MeshBasicMaterial({
       map: git,
       transparent: true,
       opacity: 0.9
     });
-    _this.gitMesh = new THREE.Mesh(gitGeometry, gitMaterial);
+    _this.gitMesh = new THREE.Mesh(youTubeGeometry, gitMaterial);
     _this.gitMesh.name = "gitMesh";
     _this.gitMesh.rotation.y = 90 / 180 * Math.PI;
     _this.gitMesh.position.z = textPositionZ;
@@ -289,14 +289,14 @@ function (_load) {
     _this.gitMesh.position.x = textPositionX + 1;
     scene.add(_this.gitMesh); // タイトル4
 
-    var title4 = texLoader.load("../../assets/images/coolTextC.png");
-    var title4Geometry = new THREE.PlaneGeometry(1.5, 0.4);
+    var title4 = texLoader.load("../../assets/images/coolTextC.png"); // let title4Geometry = new THREE.PlaneGeometry(1.5, 0.4);
+
     var title4Material = new THREE.MeshBasicMaterial({
       map: title4,
       transparent: true,
       opacity: 0.9
     });
-    _this.title4Mesh = new THREE.Mesh(title4Geometry, title4Material);
+    _this.title4Mesh = new THREE.Mesh(titleGeometry, title4Material);
     _this.title4Mesh.rotation.y = 90 / 180 * Math.PI;
     _this.title4Mesh.position.z = textPositionZ;
     _this.title4Mesh.position.y = -8.5 + textPositionY;
@@ -304,14 +304,14 @@ function (_load) {
     _this.title4Mesh.name = "contact";
     scene.add(_this.title4Mesh); // 背景8
 
-    var texture8 = texLoader.load("../../assets/images/yugo.jpg");
-    var planeGeometry8 = new THREE.PlaneGeometry(4, 2);
+    var texture8 = texLoader.load("../../assets/images/yugo.jpg"); // let planeGeometry8 = new THREE.PlaneGeometry(4, 2);
+
     var planeMaterial8 = new THREE.MeshBasicMaterial({
       map: texture8,
       transparent: true,
       opacity: 0.7
     });
-    var planeMesh8 = new THREE.Mesh(planeGeometry8, planeMaterial8);
+    var planeMesh8 = new THREE.Mesh(planeGeometry, planeMaterial8);
     planeMesh8.rotation.y = 90 / 180 * Math.PI;
     planeMesh8.position.z = textPositionZ;
     planeMesh8.position.y = -8.5 + textPositionY;

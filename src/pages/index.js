@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 import "./style.scss";
 import * as THREE from "three";
 import { ObjModel } from "./model/_ObjModel";

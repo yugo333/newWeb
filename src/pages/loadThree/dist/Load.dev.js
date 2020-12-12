@@ -24,7 +24,7 @@ var load = function load(scene) {
 
   this.OrbitControls = controls(THREE);
   scene.background = new THREE.Color(0x000000);
-  this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 10000);
+  this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 150);
   this.camera.rotation.y = 45 / 180 * Math.IP;
   this.camera.position.x = 0;
   this.camera.position.y = 0;

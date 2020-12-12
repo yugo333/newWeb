@@ -119,13 +119,13 @@ export class ObjModel extends load {
 
     // 背景２
     const texture2 = texLoader.load("../../assets/images/w.jpg");
-    let planeGeometry2 = new THREE.PlaneGeometry(4, 2);
+    // let planeGeometry2 = new THREE.PlaneGeometry(4, 2);
     let planeMaterial2 = new THREE.MeshBasicMaterial({
       map: texture2,
       transparent: true,
       opacity: 0.7,
     });
-    const planeMesh2 = new THREE.Mesh(planeGeometry2, planeMaterial2);
+    const planeMesh2 = new THREE.Mesh(planeGeometry, planeMaterial2);
     planeMesh2.rotation.y = (90 / 180) * Math.PI;
     planeMesh2.position.z = textPositionZ;
     planeMesh2.position.y = -2.5 + textPositionY;
@@ -134,13 +134,13 @@ export class ObjModel extends load {
 
     // テキスト２
     const text2 = texLoader.load("../../assets/images/text.png");
-    let txtGeometry2 = new THREE.PlaneGeometry(3, 0.6);
+    // let txtGeometry2 = new THREE.PlaneGeometry(3, 0.6);
     let txtMaterial2 = new THREE.MeshBasicMaterial({
       map: text2,
       transparent: true,
       opacity: 0.8,
     });
-    const txtMesh2 = new THREE.Mesh(txtGeometry2, txtMaterial2);
+    const txtMesh2 = new THREE.Mesh(txtGeometry, txtMaterial2);
     txtMesh2.rotation.y = (90 / 180) * Math.PI;
     txtMesh2.position.z = textPositionZ;
     txtMesh2.position.y = -2.88 + textPositionY;
@@ -149,13 +149,13 @@ export class ObjModel extends load {
 
     // タイトル2
     const title2 = texLoader.load("../../assets/images/coolTextW.png");
-    let title2Geometry = new THREE.PlaneGeometry(1.5, 0.4);
+    // let title2Geometry = new THREE.PlaneGeometry(1.5, 0.4);
     let title2Material = new THREE.MeshBasicMaterial({
       map: title2,
       transparent: true,
       opacity: 0.9,
     });
-    const title2Mesh = new THREE.Mesh(title2Geometry, title2Material);
+    const title2Mesh = new THREE.Mesh(titleGeometry, title2Material);
     title2Mesh.rotation.y = (90 / 180) * Math.PI;
     title2Mesh.position.z = textPositionZ + 0.8;
     title2Mesh.position.y = -2.1 + textPositionY;
@@ -164,13 +164,13 @@ export class ObjModel extends load {
 
     // タイトル3
     const title3 = texLoader.load("../../assets/images/coolTextL.png");
-    let title3Geometry = new THREE.PlaneGeometry(1.5, 0.4);
+    // let title3Geometry = new THREE.PlaneGeometry(1.5, 0.4);
     let title3Material = new THREE.MeshBasicMaterial({
       map: title3,
       transparent: true,
       opacity: 0.9,
     });
-    const title3Mesh = new THREE.Mesh(title3Geometry, title3Material);
+    const title3Mesh = new THREE.Mesh(titleGeometry, title3Material);
     title3Mesh.rotation.y = (90 / 180) * Math.PI;
     title3Mesh.position.z = textPositionZ + 0.8;
     title3Mesh.position.y = -4.5 + textPositionY;
@@ -212,13 +212,13 @@ export class ObjModel extends load {
     scene.add(this.youTubeMesh);
     //inst
     const inst = texLoader.load("../../assets/images/l4.png");
-    let instGeometry = new THREE.PlaneGeometry(1.5, 0.4);
+    // let instGeometry = new THREE.PlaneGeometry(1.5, 0.4);
     let instMaterial = new THREE.MeshBasicMaterial({
       map: inst,
       transparent: true,
       opacity: 0.9,
     });
-    this.instMesh = new THREE.Mesh(instGeometry, instMaterial);
+    this.instMesh = new THREE.Mesh(youTubeGeometry, instMaterial);
     this.instMesh.name = "instMesh";
     this.instMesh.rotation.y = (90 / 180) * Math.PI;
     this.instMesh.position.z = textPositionZ;
@@ -227,13 +227,13 @@ export class ObjModel extends load {
     scene.add(this.instMesh);
     //twe
     const twe = texLoader.load("../../assets/images/l3.png");
-    let tweGeometry = new THREE.PlaneGeometry(1.5, 0.4);
+    // let tweGeometry = new THREE.PlaneGeometry(1.5, 0.4);
     let tweMaterial = new THREE.MeshBasicMaterial({
       map: twe,
       transparent: true,
       opacity: 0.9,
     });
-    this.tweMesh = new THREE.Mesh(tweGeometry, tweMaterial);
+    this.tweMesh = new THREE.Mesh(youTubeGeometry, tweMaterial);
     this.tweMesh.name = "tweMesh";
     this.tweMesh.rotation.y = (90 / 180) * Math.PI;
     this.tweMesh.position.z = textPositionZ;
@@ -242,13 +242,13 @@ export class ObjModel extends load {
     scene.add(this.tweMesh);
     //git
     const git = texLoader.load("../../assets/images/l2.png");
-    let gitGeometry = new THREE.PlaneGeometry(1.5, 0.4);
+    // let gitGeometry = new THREE.PlaneGeometry(1.5, 0.4);
     let gitMaterial = new THREE.MeshBasicMaterial({
       map: git,
       transparent: true,
       opacity: 0.9,
     });
-    this.gitMesh = new THREE.Mesh(gitGeometry, gitMaterial);
+    this.gitMesh = new THREE.Mesh(youTubeGeometry, gitMaterial);
     this.gitMesh.name = "gitMesh";
     this.gitMesh.rotation.y = (90 / 180) * Math.PI;
     this.gitMesh.position.z = textPositionZ;
@@ -258,13 +258,13 @@ export class ObjModel extends load {
 
     // タイトル4
     const title4 = texLoader.load("../../assets/images/coolTextC.png");
-    let title4Geometry = new THREE.PlaneGeometry(1.5, 0.4);
+    // let title4Geometry = new THREE.PlaneGeometry(1.5, 0.4);
     let title4Material = new THREE.MeshBasicMaterial({
       map: title4,
       transparent: true,
       opacity: 0.9,
     });
-    this.title4Mesh = new THREE.Mesh(title4Geometry, title4Material);
+    this.title4Mesh = new THREE.Mesh(titleGeometry, title4Material);
     this.title4Mesh.rotation.y = (90 / 180) * Math.PI;
     this.title4Mesh.position.z = textPositionZ;
     this.title4Mesh.position.y = -8.5 + textPositionY;
@@ -274,13 +274,13 @@ export class ObjModel extends load {
 
     // 背景8
     const texture8 = texLoader.load("../../assets/images/yugo.jpg");
-    let planeGeometry8 = new THREE.PlaneGeometry(4, 2);
+    // let planeGeometry8 = new THREE.PlaneGeometry(4, 2);
     let planeMaterial8 = new THREE.MeshBasicMaterial({
       map: texture8,
       transparent: true,
       opacity: 0.7,
     });
-    const planeMesh8 = new THREE.Mesh(planeGeometry8, planeMaterial8);
+    const planeMesh8 = new THREE.Mesh(planeGeometry, planeMaterial8);
     planeMesh8.rotation.y = (90 / 180) * Math.PI;
     planeMesh8.position.z = textPositionZ;
     planeMesh8.position.y = -8.5 + textPositionY;
