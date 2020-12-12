@@ -13,7 +13,7 @@
     "dev": "npm run webpack-server",
     "build:development": "npx webpack --env.file=development --config webpack.dev.js",
     "build:staging": "npx webpack --env.file=staging --config webpack.prod.js",
-    "build:production": "npx webpack --env.file=production --config webpack.prod.js",
+    "build:production": "npx webpack --env.file=production --config webpack.dev.js",
     "start": "npx webpack --env.file=production --config webpack.prod.js"
   },
   "repository": {
