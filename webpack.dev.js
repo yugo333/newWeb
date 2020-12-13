@@ -20,7 +20,7 @@ module.exports = (env) => {
     Object.keys(entry).forEach((key) => {
       htmpPlugins.push(
         new HtmlWebpackPlugin({
-          template: path.resolve(__dirname, `./src/pages/${key}.html`),
+          template: path.resolve(__dirname, `./src/${key}.html`),
           // 出力されるファイル名
           filename: `${key}.html`,
           // headにjsファイルを入れたい場合はheadを指定

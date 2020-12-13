@@ -15,8 +15,9 @@ module.exports = function (_ref) {
     entry: {
       // htmlが増える毎にここに追記
       // htmlページ名:そのhtmlの親となるjsファイル
-      index: "./src/pages/index.js",
-      "sample/index": "./src/pages/sample/index.js"
+      // index: path.resolve(__dirname, "./src/pages/index.js"),
+      index: "./src/index.js",
+      "sample/index": "./src/sample/index.js"
     },
     output: {
       filename: "./js/".concat(outputFile, ".js"),
