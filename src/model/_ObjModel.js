@@ -411,7 +411,7 @@ export class ObjModel extends load {
       this.skullBone = this.skull2.children[0].children[0];
       scene.add(this.skull2);
     });
-    GLoader.load(GLB6, (gltf) => {
+    GLoader.load("../assets/images/skullDown.glb", (gltf) => {
       this.skull2Clone = gltf.scene;
       this.skull2Clone.scale.set(0.6, 0.6, 0.6);
       this.skull2Clone.rotation.y = (60 / 180) * Math.PI;
