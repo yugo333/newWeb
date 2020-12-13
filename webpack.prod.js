@@ -52,27 +52,19 @@ module.exports = (env) => {
       plugins: createHtmlPlugins(
         commonConfig({ outputFile, assetFile, envFilePath, assetPath }).entry
       ),
-      output: {
-        filename: outputFile,
-        path: path.resolve(__dirname, "dist"),
+      optimization: {
+        minimizer: [
+          // javascriptの最適化
+          new TerserWebpackPlugin({
+            terserOptions: {
+              // consoleを削除する
+              compress: { drop_console: true },
+            },
+          }),
+          // cssの最適化
+          new OptimizeCssPlugin(),
+        ],
       },
-      // devServer: {
-      //   contentBase: path.join(__dirname, "dist"),
-      // },
-      // optimization: {
-      //   contentBase: path.join(__dirname, "dist"),
-      //   minimizer: [
-      //     // javascriptの最適化
-      //     new TerserWebpackPlugin({
-      //       terserOptions: {
-      //         // consoleを削除する
-      //         compress: { drop_console: true },
-      //       },
-      //     }),
-      //     // cssの最適化
-      //     new OptimizeCssPlugin(),
-      //   ],
-      // },
     }
   );
 };

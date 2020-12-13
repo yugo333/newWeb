@@ -108,12 +108,12 @@ module.exports = ({ outputFile, assetFile, envFilePath, assetPath }) => {
         //   exclude: /gltf/,
         //   loader: "url-loader?limit=100000",
         // },
-        {
-          // json読みこむ為の記述
-          test: /\.json$/,
-          loader: "json-loader",
-          type: "javascript/auto",
-        },
+        // {
+        //   // json読みこむ為の記述
+        //   test: /\.json$/,
+        //   loader: "json-loader",
+        //   type: "javascript/auto",
+        // },
       ],
     },
     resolve: {
@@ -123,10 +123,10 @@ module.exports = ({ outputFile, assetFile, envFilePath, assetPath }) => {
         "@scss": path.resolve(__dirname, "src/scss"),
         "@assets": path.resolve(__dirname, "src/assets"),
         "~assets": path.resolve(__dirname, "./dist/assets"),
-        "three/Water": path.join(
-          __dirname,
-          "node_modules/three/examples/js/objects/Water.js"
-        ),
+        // "three/Water": path.join(
+        //   __dirname,
+        //   "node_modules/three/examples/js/objects/Water.js"
+        // ),
       },
       extensions: [".js"],
     },
