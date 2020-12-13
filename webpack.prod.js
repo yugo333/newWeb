@@ -52,9 +52,13 @@ module.exports = (env) => {
       plugins: createHtmlPlugins(
         commonConfig({ outputFile, assetFile, envFilePath, assetPath }).entry
       ),
-      devServer: {
-        contentBase: path.join(__dirname, "dist"),
+      output: {
+        filename: outputFile,
+        path: path.resolve(__dirname, "dist"),
       },
+      // devServer: {
+      //   contentBase: path.join(__dirname, "dist"),
+      // },
       // optimization: {
       //   contentBase: path.join(__dirname, "dist"),
       //   minimizer: [
