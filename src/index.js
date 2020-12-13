@@ -1,5 +1,5 @@
 "use strict";
-import "./style.scss";
+import "@scss/style.scss";
 import * as THREE from "three";
 import { ObjModel } from "./model/_ObjModel";
 

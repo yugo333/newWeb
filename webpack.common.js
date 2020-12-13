@@ -9,7 +9,7 @@ module.exports = ({ outputFile, assetFile, envFilePath, assetPath }) => {
       // htmlページ名:そのhtmlの親となるjsファイル
 
       // index: path.resolve(__dirname, "./src/pages/index.js"),
-      // index: "./src/index.js",
+      index: "./src/index.js",
       "sample/index": "./src/sample/index.js",
     },
     output: {

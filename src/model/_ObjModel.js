@@ -18,10 +18,10 @@ export class ObjModel extends load {
     super(scene);
     //gltf
     let GLoader = new GLTFLoader(); //３Dモデル表示
-    // const GLB = require("../assets/images/RollSecond.glb");
-    // const GLB2 = require("../assets/images/stThaad.glb");
-    // const GLB3 = require("../assets/images/tamaSecond.glb");
-    GLoader.load("../assets/images/RollSecond.glb", (gltf) => {
+    const GLB = require("../assets/images/RollSecond.glb");
+    const GLB2 = require("../assets/images/stThaad.glb");
+    const GLB3 = require("../assets/images/tamaSecond.glb");
+    GLoader.load(GLB, (gltf) => {
       this.toy = gltf.scene;
       this.toy.scale.set(2, 2, 2);
       // toy.scale.set(200, 200, 200); //toyのサイズ
@@ -31,7 +31,7 @@ export class ObjModel extends load {
       this.toy.rotation.y = (180 / 180) * Math.PI;
       scene.add(this.toy);
     });
-    GLoader.load("../assets/images/stThaad.glb", (gltf) => {
+    GLoader.load(GLB2, (gltf) => {
       this.st = gltf.scene;
       this.st.scale.set(2, 2, 2);
       this.st.position.z = -2.5;
@@ -39,7 +39,7 @@ export class ObjModel extends load {
       this.st.rotation.y = (180 / 180) * Math.PI;
       scene.add(this.st);
     });
-    GLoader.load("../assets/images/tamaSecond.glb", (gltf) => {
+    GLoader.load(GLB3, (gltf) => {
       this.tm = gltf.scene;
       this.tm.scale.set(2, 2, 2);
       this.tm.position.z = -2.5;
@@ -344,8 +344,8 @@ export class ObjModel extends load {
       opacity: 0, //不透明度で反射具合を調整
       transparent: true, //透明を有効に
     });
-    // const GLB4 = require("../assets/images/diamond.glb");
-    GLoader.load("../assets/images/diamond.glb", (gltf) => {
+    const GLB4 = require("../assets/images/diamond.glb");
+    GLoader.load(GLB4, (gltf) => {
       this.dia = gltf.scene;
       this.dia2 = this.dia.clone();
 
@@ -383,9 +383,9 @@ export class ObjModel extends load {
     scene.add(this.plane);
 
     // skull
-    // const GLB5 = require("../assets/images/skullUp.glb");
-    // const GLB6 = require("../assets/images/skullDown.glb");
-    GLoader.load("../assets/images/skullUp.glb", (gltf) => {
+    const GLB5 = require("../assets/images/skullUp.glb");
+    const GLB6 = require("../assets/images/skullDown.glb");
+    GLoader.load(GLB5, (gltf) => {
       this.skull = gltf.scene;
       this.skullClone = this.skull.clone();
       this.skull.scale.set(0.6, 0.6, 0.6);
@@ -401,7 +401,7 @@ export class ObjModel extends load {
       scene.add(this.skull);
       scene.add(this.skullClone);
     });
-    GLoader.load("../assets/images/skullDown.glb", (gltf) => {
+    GLoader.load(GLB6, (gltf) => {
       this.skull2 = gltf.scene;
       this.skull2.scale.set(0.6, 0.6, 0.6);
       this.skull2.rotation.y = (120 / 180) * Math.PI;
@@ -411,7 +411,7 @@ export class ObjModel extends load {
       this.skullBone = this.skull2.children[0].children[0];
       scene.add(this.skull2);
     });
-    GLoader.load("../assets/images/skullDown.glb", (gltf) => {
+    GLoader.load(GLB6, (gltf) => {
       this.skull2Clone = gltf.scene;
       this.skull2Clone.scale.set(0.6, 0.6, 0.6);
       this.skull2Clone.rotation.y = (60 / 180) * Math.PI;
