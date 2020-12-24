@@ -8,9 +8,10 @@ module.exports = ({ outputFile, assetFile, envFilePath, assetPath }) => {
       // htmlが増える毎にここに追記
       // htmlページ名:そのhtmlの親となるjsファイル
 
-      // index: path.resolve(__dirname, "./src/pages/index.js"),
+      // index: path.resolve(__dirname, "../src/index.js"),
+      // "sample/index": path.resolve(__dirname, "../src/sample/index.js"),
       index: "./src/index.js",
-      "sample/index": "./src/sample/index.js",
+      // "sample/index": "./src/sample/index.js",
     },
     output: {
       filename: `./js/${outputFile}.js`,
