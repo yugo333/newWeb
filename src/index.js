@@ -217,9 +217,9 @@ function into() {
       // create a global audio source
       sound = new THREE.Audio(listener);
       // load a sound and set it as the Audio object's buffer
-      // const mp3 = require();
+      const mp3 = require("./assets/images/webSound.mp3");
       const audioLoader = new THREE.AudioLoader();
-      audioLoader.load("./assets/images/webSound.mp3", (buffer) => {
+      audioLoader.load(mp3, (buffer) => {
         sound.setBuffer(buffer);
         sound.setLoop(true);
         sound.setVolume(0.3);
