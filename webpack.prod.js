@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const OptimizeCssPlugin = require("optimize-css-assets-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 const outputFile = "[name].[chunkhash]";
 const assetFile = "[name].[contenthash]";
@@ -20,7 +19,6 @@ module.exports = (env) => {
   // webpack.common.jsのentryで追加したhtmlファイルを動的に生成する。
   const createHtmlPlugins = (entry) => {
     // 最初にdistディレクトリを空にする
-    // new UglifyJSPlugin();
     const htmpPlugins = [new CleanWebpackPlugin()];
     Object.keys(entry).forEach((key) => {
       htmpPlugins.push(

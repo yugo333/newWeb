@@ -527,13 +527,13 @@ function into() {
       if (scrollPage) {
         //スクロール出来るようにしハイトも大きくする
         // モバイルだとなんか変になるので小ちゃくする
-        if (window.innerWidth < 1000) {
+        if (canvas.width < 1000) {
           mainScroll.style.height = "1300px";
-        }
-        //  else if (window.innerWidth > 1000 && window.innerWidth < 1700) {
-        //   mainScroll.style.height = "1850px";
-        // }
-        else {
+        } else if (canvas.width < 1100) {
+          mainScroll.style.height = "1690px";
+        } else if (canvas.width > 1100 && canvas.height < 1150) {
+          mainScroll.style.height = "1560px";
+        } else {
           mainScroll.style.height = "1900px";
         }
         mainScroll.style.overflowY = "auto";

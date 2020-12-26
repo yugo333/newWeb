@@ -8,10 +8,9 @@ module.exports = ({ outputFile, assetFile, envFilePath, assetPath }) => {
       // htmlが増える毎にここに追記
       // htmlページ名:そのhtmlの親となるjsファイル
       index: "./src/index.js",
-      "sample/index": "./src/sample/index.js",
     },
     output: {
-      filename: `./js/${outputFile}.js`,
+      filename: `./${outputFile}.js`,
       path: path.resolve(__dirname, "dist"),
     },
     plugins: [
@@ -105,7 +104,7 @@ module.exports = ({ outputFile, assetFile, envFilePath, assetPath }) => {
         // 画像を相対パスで使えるようにする
         // {
         //   test: /\.(jpg|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
-        //   exclude: /gltf/,
+        //   // exclude: /gltf/,
         //   loader: "url-loader?limit=100000",
         // },
         // {

@@ -73,7 +73,7 @@ export class ObjModel extends load {
     // console.log(window.innerWidth, window.innerHeight);
     // 背景１
     const texLoader = new THREE.TextureLoader();
-    const texture = texLoader.load("../assets/images/q.jpg");
+    const texture = texLoader.load(require("../assets/images/q.jpg"));
     let planeGeometry = new THREE.PlaneGeometry(4, 2);
     let planeMaterial = new THREE.MeshBasicMaterial({
       map: texture,
@@ -88,7 +88,7 @@ export class ObjModel extends load {
     scene.add(this.planeMesh);
 
     // テキスト
-    const text = texLoader.load("../assets/images/txt.png");
+    const text = texLoader.load(require("../assets/images/txt.png"));
     let txtGeometry = new THREE.PlaneGeometry(3, 0.6);
     let txtMaterial = new THREE.MeshBasicMaterial({
       map: text,
@@ -103,7 +103,7 @@ export class ObjModel extends load {
     scene.add(txtMesh);
 
     // タイトル
-    const title = texLoader.load("../assets/images/coolTextA.png");
+    const title = texLoader.load(require("../assets/images/coolTextA.png"));
     let titleGeometry = new THREE.PlaneGeometry(1.5, 0.4);
     let titleMaterial = new THREE.MeshBasicMaterial({
       map: title,
@@ -118,7 +118,7 @@ export class ObjModel extends load {
     scene.add(titleMesh);
 
     // 背景２
-    const texture2 = texLoader.load("../assets/images/w.jpg");
+    const texture2 = texLoader.load(require("../assets/images/w.jpg"));
     // let planeGeometry2 = new THREE.PlaneGeometry(4, 2);
     let planeMaterial2 = new THREE.MeshBasicMaterial({
       map: texture2,
@@ -133,7 +133,7 @@ export class ObjModel extends load {
     scene.add(planeMesh2);
 
     // テキスト２
-    const text2 = texLoader.load("../assets/images/text.png");
+    const text2 = texLoader.load(require("../assets/images/text.png"));
     // let txtGeometry2 = new THREE.PlaneGeometry(3, 0.6);
     let txtMaterial2 = new THREE.MeshBasicMaterial({
       map: text2,
@@ -148,7 +148,7 @@ export class ObjModel extends load {
     scene.add(txtMesh2);
 
     // タイトル2
-    const title2 = texLoader.load("../assets/images/coolTextW.png");
+    const title2 = texLoader.load(require("../assets/images/coolTextW.png"));
     // let title2Geometry = new THREE.PlaneGeometry(1.5, 0.4);
     let title2Material = new THREE.MeshBasicMaterial({
       map: title2,
@@ -163,7 +163,7 @@ export class ObjModel extends load {
     scene.add(title2Mesh);
 
     // タイトル3
-    const title3 = texLoader.load("../assets/images/coolTextL.png");
+    const title3 = texLoader.load(require("../assets/images/coolTextL.png"));
     // let title3Geometry = new THREE.PlaneGeometry(1.5, 0.4);
     let title3Material = new THREE.MeshBasicMaterial({
       map: title3,
@@ -178,7 +178,7 @@ export class ObjModel extends load {
     scene.add(title3Mesh);
 
     // リンク背景
-    const textureTable = texLoader.load("../assets/images/ame.jpg");
+    const textureTable = texLoader.load(require("../assets/images/ame.jpg"));
     let planeGeometryTable = new THREE.PlaneGeometry(4, 3);
     let planeMaterialTable = new THREE.MeshBasicMaterial({
       map: textureTable,
@@ -196,7 +196,7 @@ export class ObjModel extends load {
     scene.add(planeMeshTable);
 
     //youTube
-    const youTube = texLoader.load("../assets/images/l1.png");
+    const youTube = texLoader.load(require("../assets/images/l1.png"));
     let youTubeGeometry = new THREE.PlaneGeometry(1.5, 0.4);
     let youTubeMaterial = new THREE.MeshBasicMaterial({
       map: youTube,
@@ -211,7 +211,7 @@ export class ObjModel extends load {
     this.youTubeMesh.position.x = textPositionX + 1;
     scene.add(this.youTubeMesh);
     //inst
-    const inst = texLoader.load("../assets/images/l4.png");
+    const inst = texLoader.load(require("../assets/images/l4.png"));
     // let instGeometry = new THREE.PlaneGeometry(1.5, 0.4);
     let instMaterial = new THREE.MeshBasicMaterial({
       map: inst,
@@ -226,7 +226,7 @@ export class ObjModel extends load {
     this.instMesh.position.x = textPositionX + 1;
     scene.add(this.instMesh);
     //twe
-    const twe = texLoader.load("../assets/images/l3.png");
+    const twe = texLoader.load(require("../assets/images/l3.png"));
     // let tweGeometry = new THREE.PlaneGeometry(1.5, 0.4);
     let tweMaterial = new THREE.MeshBasicMaterial({
       map: twe,
@@ -241,7 +241,7 @@ export class ObjModel extends load {
     this.tweMesh.position.x = textPositionX + 1;
     scene.add(this.tweMesh);
     //git
-    const git = texLoader.load("../assets/images/l2.png");
+    const git = texLoader.load(require("../assets/images/l2.png"));
     // let gitGeometry = new THREE.PlaneGeometry(1.5, 0.4);
     let gitMaterial = new THREE.MeshBasicMaterial({
       map: git,
@@ -257,7 +257,7 @@ export class ObjModel extends load {
     scene.add(this.gitMesh);
 
     // タイトル4
-    const title4 = texLoader.load("../assets/images/coolTextC.png");
+    const title4 = texLoader.load(require("../assets/images/coolTextC.png"));
     // let title4Geometry = new THREE.PlaneGeometry(1.5, 0.4);
     let title4Material = new THREE.MeshBasicMaterial({
       map: title4,
@@ -273,7 +273,7 @@ export class ObjModel extends load {
     scene.add(this.title4Mesh);
 
     // 背景8
-    const texture8 = texLoader.load("../assets/images/yugo.jpg");
+    const texture8 = texLoader.load(require("../assets/images/yugo.jpg"));
     // let planeGeometry8 = new THREE.PlaneGeometry(4, 2);
     let planeMaterial8 = new THREE.MeshBasicMaterial({
       map: texture8,
@@ -316,12 +316,12 @@ export class ObjModel extends load {
     //ローダーで画像読み込み
     let urls = [
       //画像配置決まってる
-      "../assets/images/posx.jpg",
-      "../assets/images/negx.jpg",
-      "../assets/images/posy.jpg",
-      "../assets/images/negy.jpg",
-      "../assets/images/posz.jpg",
-      "../assets/images/negz.jpg",
+      require("../assets/images/posx.jpg"),
+      require("../assets/images/negx.jpg"),
+      require("../assets/images/posy.jpg"),
+      require("../assets/images/negy.jpg"),
+      require("../assets/images/posz.jpg"),
+      require("../assets/images/negz.jpg"),
     ];
     let loader = new THREE.CubeTextureLoader();
     let cubeTexture = loader.load(urls);
@@ -425,7 +425,7 @@ export class ObjModel extends load {
     // SMOKE
     // Textures
     this.smokeTexture = new THREE.TextureLoader().load(
-      "../assets/images/cloud.png"
+      require("../assets/images/cloud.png")
     );
 
     var smokeGeo = new THREE.BufferGeometry();
